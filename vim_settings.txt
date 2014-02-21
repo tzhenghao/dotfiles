@@ -1,0 +1,15 @@
+colorscheme koehler 
+set number
+
+set tabstop=4
+set shiftwidth=4
+set smartindent
+
+set ignorecase
+set colorcolumn=80
+
+nnoremap ; :
+
+:nmap <c-s> :w<CR>
+:imap <c-s> <Esc>:w<CR>a
+:imap <c-s> <Esc><c-s>
