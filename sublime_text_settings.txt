@@ -1,8 +1,14 @@
-[
-    { "keys": ["tab"], "command": "move", "args": {"by": "characters", "forward": true}, "context":
-    [
-        { "key": "following_text", "operator": "regex_contains", "operand": "^[)'}\"\\]]", "match_all": true },
-        { "key": "auto_complete_visible", "operator": "equal", "operand": false }
-    ]   
-    }
-]
+{
+	"color_scheme": "Packages/Theme - Flatland/Flatland Dark.tmTheme",
+	"font_size": 10,
+	"ignored_packages":
+	[
+		"Vintage"
+	],
+	"rulers":
+	[
+		80
+	],
+	"theme": "Flatland Dark.sublime-theme"
+}
+
