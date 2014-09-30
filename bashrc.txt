@@ -46,4 +46,21 @@ alias g++='g++-4.8'
 
 PS1='\e[1;34m\]\u [\e[1;31m\]\W\e[1;34m\]] ->\e[0m\] '
 
+# My own aliases.
+alias ..='cd ..'
+alias q='exit'
+alias c='clear'
+alias h='history'
+alias cs='clear;ls'
+
+# Git Shortcuts
+alias status='git status'
+alias commit='git commit -m'
+
+# Shortcuts to remote machine logins.
+alias 485login='ssh tanzhao@eecs485-10.eecs.umich.edu'
+alias caenlogin='ssh tanzhao@login.engin.umich.edu'
+
+# Vim like operations for manipulating shell commands.
+
 # That's all folks!
