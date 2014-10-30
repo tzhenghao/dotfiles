@@ -1,5 +1,5 @@
 "Default color scheme"
-colorscheme monokai 
+colorscheme wombat256 
 
 "Display number lines"
 set number
