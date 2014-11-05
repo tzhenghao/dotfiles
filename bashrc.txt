@@ -48,13 +48,16 @@ PS1='\e[1;34m\]\u [\e[1;31m\]\W\e[1;34m\]] ->\e[0m\] '
 
 # My own aliases.
 alias ..='cd ..'
+alias ...='cd ..;cd ..'
 alias q='exit'
 alias c='clear'
 alias h='history'
 alias cs='clear;ls'
+alias pd='pwd'
 
 # Git Shortcuts
-alias status='git status'
+alias g='git'
+alias st='git status'
 alias commit='git commit -m'
 
 # Shortcuts to remote machine logins.
