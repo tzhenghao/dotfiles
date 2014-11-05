@@ -54,6 +54,8 @@ alias c='clear'
 alias h='history'
 alias cs='clear;ls'
 alias pd='pwd'
+alias lsa='ls -a'
+alias lsl='ls -l'
 
 # Git Shortcuts
 alias g='git'
