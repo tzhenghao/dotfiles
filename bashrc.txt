@@ -63,6 +63,7 @@ alias commit='git commit -m'
 # Shortcuts to remote machine logins.
 alias 485login='ssh tanzhao@eecs485-10.eecs.umich.edu'
 alias caenlogin='ssh tanzhao@login.engin.umich.edu'
+alias pythonserver='python -m SimpleHTTPServer 8000'
 
 # Vim like operations for manipulating shell commands.
 
