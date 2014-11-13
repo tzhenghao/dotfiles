@@ -52,3 +52,6 @@ nnoremap ; :
 
 "find using f"
 nmap f /
+
+"Remap Vim 0 to first non-blank char"
+nmap 0 ^
