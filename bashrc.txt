@@ -47,6 +47,7 @@ alias g++='g++-4.8'
 PS1='\e[1;34m\]\u [\e[1;31m\]\W\e[1;34m\]] ->\e[0m\] '
 
 # My own aliases.
+
 alias ..='cd ..'
 alias ...='cd ..; cd ..'
 alias q='exit'
@@ -65,11 +66,18 @@ alias g='git'
 alias st='git status'
 alias com='git commit -m'
 alias clone='git clone'
+alias sth='git stash'
 alias lg='git log'
 
 # Shortcuts to remote machine logins.
 alias 485login='ssh tanzhao@eecs485-10.eecs.umich.edu'
 alias caenlogin='ssh tanzhao@login.engin.umich.edu'
+alias pythonserver='python -m SimpleHTTPServer 8000'
+
+# Shortcuts to vimrc and bashrc
+alias vimrc='vim ~/.vimrc'
+alias bashrc='vim ~/.bashrc'
+alias loadbash='source ~/.bashrc'
 
 # Vim like operations for manipulating shell commands.
 

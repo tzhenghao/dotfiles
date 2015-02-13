@@ -8,6 +8,16 @@ set noswapfile
 "Display number lines"
 set number
 
+"Automatically load the file if it is modified"
+set autoread
+
+"no backup file - just use git"
+set nobackup
+set noswapfile
+
+"Always show status line"
+set laststatus=2
+
 "Indent settings"
 set tabstop=4
 set shiftwidth=4
