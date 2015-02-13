@@ -48,14 +48,24 @@ PS1='\e[1;34m\]\u [\e[1;31m\]\W\e[1;34m\]] ->\e[0m\] '
 
 # My own aliases.
 alias ..='cd ..'
+alias ...='cd ..; cd ..'
 alias q='exit'
 alias c='clear'
 alias h='history'
 alias cs='clear;ls'
+alias pd='pwd'
+alias lsa='ls -a'
+alias lsl='ls -l'
+alias home='cd ~'
+alias root='cd /'
+alias null='/dev/null'
 
 # Git Shortcuts
-alias status='git status'
-alias commit='git commit -m'
+alias g='git'
+alias st='git status'
+alias com='git commit -m'
+alias clone='git clone'
+alias lg='git log'
 
 # Shortcuts to remote machine logins.
 alias 485login='ssh tanzhao@eecs485-10.eecs.umich.edu'
