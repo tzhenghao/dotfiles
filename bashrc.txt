@@ -59,6 +59,8 @@ alias lsa='ls -a'
 alias lsl='ls -l'
 alias home='cd ~'
 alias root='cd /'
+alias dtop='cd ~/Desktop'
+alias dbox='cd ~/Dropbox'
 alias null='/dev/null'
 
 # Git Shortcuts
