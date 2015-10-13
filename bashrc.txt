@@ -90,6 +90,10 @@ alias vimrc='vim ~/.vimrc'
 alias bashrc='vim ~/.bashrc'
 alias loadbash='source ~/.bashrc'
 
-# Vim like operations for manipulating shell commands.
+# ARM toolchain
+export PATH=$PATH:~/toolchains/gcc-arm-none-eabi-4_9-2015q2/bin
+
+# MSP toolchain
+export PATH=$PATH:~/toolchains/ti/gcc/bin
 
 # That's all folks!
