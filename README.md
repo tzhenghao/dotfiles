@@ -8,4 +8,5 @@ Configurations For:
 1. Vim (.vimrc)
 2. Bash (.bashrc)
 3. Sublime Text 3 plugins and settings
-4. Homebrew (list of all packages used)
+4. Homebrew packages
+5. Python pip packages
