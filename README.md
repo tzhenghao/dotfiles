@@ -10,3 +10,4 @@ Configurations For:
 3. Sublime Text 3 plugins and settings
 4. Homebrew packages
 5. Python pip packages
+6. Ctags configurations
