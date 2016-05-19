@@ -5,7 +5,7 @@ alias gcc='gcc-5'
 alias g++='g++-5'
 alias tar='gtar'
 
-PS1='\033[01;36m\]\t \[\033[01;34m\][\[\033[01;31m\]\W\[\033[01;34m\]]-> \[\033[0;0m\]'
+PS1='\[\033[01;36m\]\t \[\033[01;34m\][\[\033[01;31m\]\W\[\033[01;34m\]]-> \[\033[0;0m\]'
 
 # My own aliases.
 
@@ -32,7 +32,7 @@ alias ...='cd ..; cd ..'
 alias ....='cd ..; cd ..; cd ..'
 
 # Shortcuts to my software projects
-
+alias projects='cd ~/Dropbox/Projects'
 alias iosprojects='cd ~/Dropbox/Projects/iOSProjects'
 alias pebbleprojects='cd ~/Dropbox/Projects/PebbleProjects'
 alias c++projects='cd ~/Dropbox/Projects/C++Projects'
@@ -60,7 +60,11 @@ alias loadbash='source ~/.bash_profile'
 alias loadsecrets='source ~/.secrets.sh'
 
 # Typos.
+alias sl='ls'
 alias givm='gvim'
+
+#ctags
+alias gentags='ctags -f .tags -R .'
 
 # ARM toolchain
 export PATH=$PATH:~/toolchains/gcc-arm-none-eabi-4_9-2015q3/bin
