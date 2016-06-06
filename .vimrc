@@ -2,6 +2,11 @@
 set background=dark
 colorscheme gruvbox
 
+syntax enable
+
+"Enable 256 colors"
+set t_Co=256
+
 "Disable the swap file"
 set noswapfile
 
@@ -41,6 +46,8 @@ set hlsearch
 "Always show the status of the file"
 set laststatus=2
 
+set guifont=Monaco:h12
+
 "Control-s to save"
 :nmap <c-s> :w<CR>
 :imap <c-s> <Esc>:w<CR>a
@@ -65,6 +72,11 @@ inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
+"This swaps tabs in Vim"
+nnoremap tk :tabn<CR>
+nnoremap tj :tabp<CR>
+nnoremap tn :tabe<CR>
+
 "Remap ; to : in normal mode - More efficient!"
 nnoremap ; :
 
@@ -73,3 +85,5 @@ nmap f /
 
 "Remap Vim 0 to first non-blank char"
 nmap 0 ^
+
+set tags=.tags;
