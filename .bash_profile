@@ -38,6 +38,8 @@ alias pebbleprojects='cd ~/Dropbox/Projects/PebbleProjects'
 alias c++projects='cd ~/Dropbox/Projects/C++Projects'
 alias cprojects='cd ~/Dropbox/Projects/CProjects'
 alias pythonprojects='cd ~/Dropbox/Projects/PythonProjects'
+alias goprojects='cd ~/Dropbox/Projects/GoProjects'
+alias rustprojects='cd ~/Dropbox/Projects/RustProjects'
 
 # Git Shortcuts
 alias g='git'
