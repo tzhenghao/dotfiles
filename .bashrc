@@ -154,23 +154,29 @@ bakwht='\e[47m'   # White
 
 txtrst='\e[0m'    # Text Reset
 
-# My own aliases.
-alias ..='cd ..'
-alias ...='cd ..; cd ..'
-alias ....='cd ..; cd ..; cd ..'
 
+# My own aliases.
 alias q='exit'
 alias c='clear'
 alias h='history'
-alias p='cat'
 alias cs='clear;ls'
-alias lsl='ls -l'
+alias p='cat'
+alias pd='pwd'
 alias lsa='ls -a'
+alias lsl='ls -l'
 alias pd='pwd'
 alias t='time'
+alias null='/dev/null'
+
+# Directories
 alias home='cd ~'
+alias root='cd /'
 alias dtop='cd ~/Desktop'
 alias dbox='cd ~/Dropbox'
+alias o=open
+alias ..='cd ..'
+alias ...='cd ..; cd ..'
+alias ....='cd ..; cd ..; cd ..'
 
 # Git Shortcuts
 alias g='git'
@@ -182,12 +188,22 @@ alias lg='git log'
 alias u='git add -u'
 alias all='git add .'
 
+# Shortcuts to my software projects
+alias projects='cd ~/Dropbox/Projects'
+alias iosprojects='cd ~/Dropbox/Projects/iOSProjects'
+alias pebbleprojects='cd ~/Dropbox/Projects/PebbleProjects'
+alias c++projects='cd ~/Dropbox/Projects/C++Projects'
+alias cprojects='cd ~/Dropbox/Projects/CProjects'
+alias pythonprojects='cd ~/Dropbox/Projects/PythonProjects'
+alias goprojects='cd ~/Dropbox/Projects/GoProjects'
+alias rustprojects='cd ~/Dropbox/Projects/RustProjects'
+alias arduinoprojects='cd ~/Dropbox/Arduino'
+alias notebook="cd ~/Dropbox/Notebook"
+
 # Shortcuts to remote machine logins.
-alias 485login='ssh tanzhao@eecs485-10.eecs.umich.edu'
-alias caenlogin='ssh tanzhao@login.engin.umich.edu'
 alias pythonserver='python -m SimpleHTTPServer 8000'
 
-#Shortcuts to vimrc
+# Shortcuts to vimrc
 alias vimrc='vim ~/.vimrc'
 alias bashrc='vim ~/.bashrc'
 alias loadbash='source ~/.bashrc'
@@ -200,13 +216,22 @@ alias py='python3'
 alias aremove='sudo apt-get autoremove'
 alias aclean='sudo apt-get autoclean'
 
-#Other stuff
-alias energia='cd ~/Programs/energia-0101E0015/; ./energia'
+# Typos.
+alias sl='ls'
+alias givm='gvim'
 
-# Vim like operations for manipulating shell commands.
-export VX_SHADER_PATH=~/code/eecs467/eecs467A3/src/vx/shaders
-export VX_FONT_PATH=~/code/eecs467/eecs467A3/src/vx/fonts
-export CLASSPATH=$CLASSPATH:~/code/eecs467/eecs467A3/java/lcmtypes.jar
+# Moar environment variables.
+export EDITOR=vim
+
+# Ctags.
+alias gentags='ctags -f .tags -R .'
+
+# Energia toolchain
+alias energia='cd ~/Programs/energia-0101E0015/; ./energia'
 
 # ARM GNU toolchain path.
 export PATH=$PATH:~/toolchains/gcc-arm-none-eabi-4_9-2015q3/bin
+
+# Go path.
+export GOPATH=$HOME/Dropbox/GoProjects
+export PATH=$PATH:$GOPATH/bin
