@@ -1,8 +1,8 @@
 # Date: April 27, 2014
 
 # This is my bashrc settings. Feel free to take whatever you want.
-alias gcc='gcc-5'
-alias g++='g++-5'
+alias gcc='gcc-6'
+alias g++='g++-6'
 alias tar='gtar'
 
 PS1='\[\033[01;36m\]\t \[\033[01;34m\][\[\033[01;31m\]\W\[\033[01;34m\]]-> \[\033[0;0m\]'
@@ -40,6 +40,7 @@ alias cprojects='cd ~/Dropbox/Projects/CProjects'
 alias pythonprojects='cd ~/Dropbox/Projects/PythonProjects'
 alias goprojects='cd ~/Dropbox/Projects/GoProjects'
 alias rustprojects='cd ~/Dropbox/Projects/RustProjects'
+alias arduinoprojects='cd ~/Dropbox/Arduino'
 
 # Git Shortcuts
 alias g='git'
@@ -65,7 +66,10 @@ alias loadsecrets='source ~/.secrets.sh'
 alias sl='ls'
 alias givm='gvim'
 
-#ctags
+# Moar environment variables.
+export EDITOR=vim
+
+# ctags
 alias gentags='ctags -f .tags -R .'
 
 # ARM toolchain
