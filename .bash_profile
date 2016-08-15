@@ -68,6 +68,8 @@ alias givm='gvim'
 
 # Moar environment variables.
 export EDITOR=vim
+export CLICOLOR=1
+export LSCOLORS=GxFxCxDxBxegedabagaced
 
 # ctags
 alias gentags='ctags -f .tags -R .'
