@@ -70,6 +70,7 @@ alias givm='gvim'
 export EDITOR=vim
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
+export GREP_OPTIONS='--color=always'
 
 # ctags
 alias gentags='ctags -f .tags -R .'
