@@ -31,6 +31,12 @@ alias ..='cd ..'
 alias ...='cd ..; cd ..'
 alias ....='cd ..; cd ..; cd ..'
 
+# Shortcuts to local machine folders
+
+alias docs='cd ~/Documents'
+alias box='cd ~/Box\ Sync'
+alias gdrive='cd ~/Google\ Drive'
+
 # Shortcuts to my software projects
 alias projects='cd ~/Dropbox/Projects'
 alias iosprojects='cd ~/Dropbox/Projects/iOSProjects'
