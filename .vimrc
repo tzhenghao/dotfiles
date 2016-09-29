@@ -85,5 +85,3 @@ nmap f /
 
 "Remap Vim 0 to first non-blank char"
 nmap 0 ^
-
-set tags=.tags;

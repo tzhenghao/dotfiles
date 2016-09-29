@@ -178,15 +178,11 @@ alias ..='cd ..'
 alias ...='cd ..; cd ..'
 alias ....='cd ..; cd ..; cd ..'
 
-# Git Shortcuts
-alias g='git'
-alias st='git status'
-alias com='git commit -m'
-alias clone='git clone'
-alias sth='git stash'
-alias lg='git log'
-alias u='git add -u'
-alias all='git add .'
+# Shortcuts to local machine folders
+
+alias docs='cd ~/Documents'
+alias box='cd ~/Box\ Sync'
+alias gdrive='cd ~/Google\ Drive'
 
 # Shortcuts to my software projects
 alias projects='cd ~/Dropbox/Projects'
@@ -198,7 +194,17 @@ alias pythonprojects='cd ~/Dropbox/Projects/PythonProjects'
 alias goprojects='cd ~/Dropbox/Projects/GoProjects'
 alias rustprojects='cd ~/Dropbox/Projects/RustProjects'
 alias arduinoprojects='cd ~/Dropbox/Arduino'
-alias notebook="cd ~/Dropbox/Notebook"
+alias notebook='cd ~/Dropbox/Notebook'
+
+# Git Shortcuts
+alias g='git'
+alias st='git status'
+alias com='git commit -m'
+alias clone='git clone'
+alias sth='git stash'
+alias lg='git log'
+alias u='git add -u'
+alias all='git add .'
 
 # Shortcuts to remote machine logins.
 alias pythonserver='python -m SimpleHTTPServer 8000'
@@ -222,9 +228,11 @@ alias givm='gvim'
 
 # Moar environment variables.
 export EDITOR=vim
+export CLICOLOR=1
+export GREP_OPTIONS='--color=always'
 
 # Ctags.
-alias gentags='ctags -f .tags -R .'
+alias gentags='ctags -R .'
 
 # Energia toolchain
 alias energia='cd ~/Programs/energia-0101E0015/; ./energia'

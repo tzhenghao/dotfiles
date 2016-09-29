@@ -47,6 +47,7 @@ alias pythonprojects='cd ~/Dropbox/Projects/PythonProjects'
 alias goprojects='cd ~/Dropbox/Projects/GoProjects'
 alias rustprojects='cd ~/Dropbox/Projects/RustProjects'
 alias arduinoprojects='cd ~/Dropbox/Arduino'
+alias notebook='cd ~/Dropbox/Notebook'
 
 # Git Shortcuts
 alias g='git'
@@ -79,7 +80,7 @@ export LSCOLORS=GxFxCxDxBxegedabagaced
 export GREP_OPTIONS='--color=always'
 
 # ctags
-alias gentags='ctags -f .tags -R .'
+alias gentags='ctags -R .'
 
 # ARM toolchain
 export PATH=$PATH:~/toolchains/gcc-arm-none-eabi-4_9-2015q3/bin
