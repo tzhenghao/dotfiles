@@ -11,3 +11,4 @@ Configurations For:
 4. Homebrew packages
 5. Python pip packages
 6. `/etc/default/keyboard` Linux file - swaps Control and Caps Lock keys
+7. tmux config file
