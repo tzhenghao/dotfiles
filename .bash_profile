@@ -66,7 +66,9 @@ alias pythonserver='python -m SimpleHTTPServer 8000'
 # Shortcuts to vimrc and bashrc
 alias vimrc='vim ~/.vimrc'
 alias bashrc='vim ~/.bash_profile'
+alias zshrc='vim ~/.zshrc'
 alias loadbash='source ~/.bash_profile'
+alias loadzsh='source ~/.zshrc'
 alias loadsecrets='source ~/.secrets.sh'
 
 # Typos.
