@@ -1,23 +1,35 @@
-"Default color scheme"
+"enable pathogen"
+execute pathogen#infect()
+
+"enable autocomplete"
+let g:neocomplete#enable_at_startup = 1
+
+" AutoComplPop like behavior. "
+let g:neocomplete#enable_auto_select = 1
+
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
 set background=dark
-colorscheme gruvbox
+let g:solarized_termcolors=256
+colorscheme solarized
 
 syntax enable
-
-"Enable 256 colors"
-set t_Co=256
-
-"Disable the swap file"
-set noswapfile
+set guifont=Monaco:h12
 
 "Display number lines"
 set number
+
+"enable 256 colors"
+set t_Co=256
 
 "Automatically load the file if it is modified"
 set autoread
 
 "no backup file - just use git"
 set nobackup
+
+"Disable the swap file"
 set noswapfile
 
 "Always show status line"
@@ -27,6 +39,7 @@ set laststatus=2
 set tabstop=4
 set shiftwidth=4
 set smartindent
+set expandtab
 
 "Set the ruler to 80 columns"
 set colorcolumn=80
@@ -46,7 +59,7 @@ set hlsearch
 "Always show the status of the file"
 set laststatus=2
 
-set guifont=Monaco:h12
+set lazyredraw
 
 "Control-s to save"
 :nmap <c-s> :w<CR>
