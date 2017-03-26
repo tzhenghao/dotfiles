@@ -1,5 +1,9 @@
 Introduction
 ========================================================
+
+[![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
+[![forthebadge](http://forthebadge.com/images/badges/powered-by-electricity.svg)](http://forthebadge.com)
+
 Here are some of my software development configurations.
 They are all in their original file formats as I want them to be short, simple and easy to refer to. Enjoy!
 
