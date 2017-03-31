@@ -1,6 +1,7 @@
-# Date: April 27, 2014
+# .bashrc file
+# Author: Zheng Hao Tan <tanzhao@umich.edu>
 
-# This is my bashrc settings. Feel free to take whatever you want.
+# These are my bashrc settings. Feel free to take whatever you want.
 alias gcc='gcc-6'
 alias g++='g++-6'
 alias tar='gtar'
