@@ -7,6 +7,9 @@ alias tar='gtar'
 
 PS1='\[\033[01;36m\]\t \[\033[01;34m\][\[\033[01;31m\]\W\[\033[01;34m\]]-> \[\033[0;0m\]'
 
+# Ignore case during tab completion.
+bind 'set completion-ignore-case on'
+
 # My own aliases.
 alias q='exit'
 alias c='clear'
@@ -95,3 +98,5 @@ export PATH="$PATH:/$HOME/toolchains/arcanist/bin"
 export PATH="$PATH:/Users/zhenghaotan/Dropbox/Projects/MagicSnippets"
 
 alias meow='cat'
+
+# That's all folks!
