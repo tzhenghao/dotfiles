@@ -36,6 +36,7 @@ alias o=open
 alias ..='cd ..'
 alias ...='cd ..; cd ..'
 alias ....='cd ..; cd ..; cd ..'
+alias pv='cd -'
 
 # Git Shortcuts
 alias g='git'
