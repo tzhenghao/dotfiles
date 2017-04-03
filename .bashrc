@@ -63,7 +63,7 @@ alias docs='cd ~/Documents'
 
 # Shortcuts to vimrc and bashrc
 alias vimrc='vim ~/.vimrc'
-alias bashrc='vim ~/.bash_profile'
+alias bashrc='vim ~/.bashrc'
 alias zshrc='vim ~/.zshrc'
 alias loadbash='source ~/.bashrc'
 alias loadzsh='source ~/.zshrc'
