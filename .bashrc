@@ -1,5 +1,8 @@
+#!/bin/bash
+
 # .bashrc file
 # Author: Zheng Hao Tan <tanzhao@umich.edu>
+# MIT License
 
 # These are my bashrc settings. Feel free to take whatever you want.
 alias gcc='gcc-6'
@@ -73,6 +76,9 @@ alias loadsecrets='source ~/.secrets.sh'
 alias sl='ls'
 alias givm='gvim'
 
+export CLICOLOR=1
+export LSCOLORS=GxFxCxDxBxegedabagacedkk
+
 # Moar environment variables.
 export EDITOR=vim
 
@@ -83,20 +89,18 @@ export GREP_OPTIONS='--color=auto'
 alias gentags='ctags -R .'
 
 # ARM toolchain
-export PATH=$PATH:~/toolchains/gcc-arm-none-eabi-4_9-2015q3/bin
+export PATH="$PATH:~/toolchains/gcc-arm-none-eabi-4_9-2015q3/bin"
 
 # MSP toolchain
-export PATH=$PATH:~/toolchains/ti/gcc/bin
+export PATH="$PATH:~/toolchains/ti/gcc/bin"
 
 # CUDA toolchain
-export PATH=$PATH:/Developer/NVIDIA/CUDA-8.0/bin
-export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/Developer/NVIDIA/CUDA-8.0/lib
-
-export CLICOLOR=1
-export LSCOLORS=GxFxCxDxBxegedabagacedkk
+export PATH="$PATH:/Developer/NVIDIA/CUDA-8.0/bin"
+export DYLD_LIBRARY_PATH="$DYLD_LIBRARY_PATH:/Developer/NVIDIA/CUDA-8.0/lib"
 
 export PATH="/usr/local/sbin:$PATH"
 
+# Arcanist
 export PATH="$PATH:/$HOME/toolchains/arcanist/bin"
 
 # MagicSnippets scripts
@@ -106,19 +110,19 @@ alias meow='cat'
 
 # Help with extractions
 extract () {
-  if [ -f $1 ] ; then
-    case $1 in
-      *.tar.bz2)   tar xvjf $1    ;;
-      *.tar.gz)    tar xvzf $1    ;;
-      *.bz2)       bunzip2 $1     ;;
-      *.rar)       unrar x $1       ;;
-      *.gz)        gunzip $1      ;;
-      *.tar)       tar xvf $1     ;;
-      *.tbz2)      tar xvjf $1    ;;
-      *.tgz)       tar xvzf $1    ;;
-      *.zip)       unzip $1       ;;
-      *.Z)         uncompress $1  ;;
-      *.7z)        7z x $1        ;;
+  if [ -f "$1" ] ; then
+    case "$1" in
+      *.tar.bz2)   tar xvjf "$1"    ;;
+      *.tar.gz)    tar xvzf "$1"    ;;
+      *.bz2)       bunzip2 "$1"     ;;
+      *.rar)       unrar x "$1"     ;;
+      *.gz)        gunzip "$1"      ;;
+      *.tar)       tar xvf "$1"     ;;
+      *.tbz2)      tar xvjf "$1"    ;;
+      *.tgz)       tar xvzf "$1"    ;;
+      *.zip)       unzip "$1"       ;;
+      *.Z)         uncompress "$1"  ;;
+      *.7z)        7z x "$1"        ;;
       *)           echo "don't know how to extract '$1'..." ;;
     esac
   else
