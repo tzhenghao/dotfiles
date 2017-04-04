@@ -1,6 +1,7 @@
 Introduction
 ========================================================
 
+[![Build Status](https://travis-ci.org/tzhenghao/SoftwareDevConfigs.svg?branch=master)](https://travis-ci.org/tzhenghao/SoftwareDevConfigs)
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
 [![forthebadge](http://forthebadge.com/images/badges/powered-by-electricity.svg)](http://forthebadge.com)
 
