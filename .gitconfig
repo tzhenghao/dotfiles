@@ -1,0 +1,15 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+#	name = Zheng Hao Tan
+#	email = tanzhao@umich.edu
+[user]
+  name = tzhenghao
+  email = tanzhao@umich.edu
+
+[alias]
+  prune = fetch --prune
+
+  undo = reset --soft HEAD^
+
+  glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'

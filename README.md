@@ -18,3 +18,4 @@ Configurations For:
 6. Python pip packages
 7. `/etc/default/keyboard` Linux file - swaps Control and Caps Lock keys
 8. `.tmux.conf` config file
+9. `.gitconfig` file
