@@ -25,3 +25,18 @@
   added = green
   changed = yellow bold
   untracked = red bold
+
+[transfer]
+  fsckobjects = true
+
+[fetch]
+  fsckobjects = true
+
+[receive]
+  fsckobjects = true
+
+[push]
+  followTags = true
+
+[status]
+  showUntrackedFiles = all
