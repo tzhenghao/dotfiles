@@ -20,3 +20,8 @@
   prompt = false
 [difftool "icdiff"]
   cmd = /usr/local/bin/icdiff --line-numbers $LOCAL $REMOTE
+
+[color "status"]
+  added = green
+  changed = yellow bold
+  untracked = red bold
