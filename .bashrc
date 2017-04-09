@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Start out with a nice cowsay prompt :)
+fortune | cowsay | lolcat
+
 # .bashrc file
 # Author: Zheng Hao Tan <tanzhao@umich.edu>
 # MIT License
@@ -9,7 +12,7 @@ alias gcc='gcc-6'
 alias g++='g++-6'
 alias tar='gtar'
 
-PS1='\[\033[01;36m\]\t \[\033[01;34m\][\[\033[01;31m\]\W\[\033[01;34m\]]-> \[\033[0;0m\]'
+PS1='\[\033[01;36m\]\t 🙃  \[\033[01;34m\][\[\033[01;31m\]\W\[\033[01;34m\]]-> \[\033[0;0m\]'
 
 # Ignore case during tab completion.
 bind 'set completion-ignore-case on'
