@@ -61,6 +61,9 @@ set expandtab
 "Set the ruler to 80 columns"
 set colorcolumn=80
 
+"Help with pasting"
+set paste
+
 "Ignore case in search patterns"
 set ignorecase
 
