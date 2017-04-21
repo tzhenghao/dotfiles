@@ -62,7 +62,7 @@ set expandtab
 set colorcolumn=80
 
 "Help with pasting"
-set paste
+set pastetoggle=<F3>
 
 "Ignore case in search patterns"
 set ignorecase
