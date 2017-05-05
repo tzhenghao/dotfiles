@@ -1,3 +1,4 @@
 # Makefile for tests:
 test:
-	shellcheck .bashrc
+	shellcheck .bash*; \
+	shellcheck .oxalate_shell_rc \
