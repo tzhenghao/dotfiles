@@ -1,11 +1,9 @@
 #!/bin/bash
 
-# Start out with a nice cowsay prompt :)
-fortune | cowsay | lolcat
-
-alias gcc='gcc-6'
-alias g++='g++-6'
+alias gcc='gcc-7'
+alias g++='g++-7'
 alias tar='gtar'
+alias sed='gsed'
 
 # My own aliases.
 alias q='exit'
