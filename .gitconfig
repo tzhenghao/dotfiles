@@ -1,18 +1,36 @@
 # This is Git's per-user configuration file.
 [user]
-# Please adapt and uncomment the following lines:
-#	name = Zheng Hao Tan
-#	email = tanzhao@umich.edu
-[user]
   name = tzhenghao
   email = tanzhao@umich.edu
 
 [alias]
-  prune = fetch --prune
+  all = add .
 
-  undo = reset --soft HEAD^
+  cl = clone
+
+  co = checkout
+
+  com = commit -m
 
   glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+
+  lg = log
+
+  prune = fetch --prune
+
+  rb = rebase
+
+  rst = reset
+
+  rstall = reset HEAD .
+
+  st = status
+
+  sth = stash
+
+  u = add -u
+
+  undo = reset --soft HEAD^
 
 [diff]
   tool = icdiff
@@ -40,3 +58,6 @@
 
 [status]
   showUntrackedFiles = all
+
+[help]
+  autocorrect = 1
