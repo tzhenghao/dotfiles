@@ -16,3 +16,5 @@ bind 'set completion-ignore-case on'
 if [ -f ~/.oxalate_shell_rc ]; then
   . ~/.oxalate_shell_rc
 fi
+
+[[ -f "$HOME/git_completion.bash" ]] && source "$HOME/git_completion.bash"

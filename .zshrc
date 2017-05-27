@@ -89,3 +89,5 @@ source $ZSH/oh-my-zsh.sh
 if [ -f ~/.oxalate_shell_rc ]; then
   . ~/.oxalate_shell_rc
 fi
+
+[[ -f "$HOME/git_completion.zsh" ]] && source "$HOME/git_completion.zsh"
