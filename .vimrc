@@ -15,12 +15,13 @@ let g:NERDSpaceDelims = 1
 "for nerdcommenter"
 filetype plugin on
 
+syntax enable
+
 "Default color scheme"
 set background=dark
 let g:solarized_termcolors=256
 colorscheme solarized
 
-syntax enable
 set guifont=Monaco:h12
 
 "Display number lines"
