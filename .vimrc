@@ -51,8 +51,8 @@ set noswapfile
 set laststatus=2
 
 "Indent settings"
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set smartindent
 
 "Change all tabs to spaces"
