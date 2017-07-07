@@ -1,5 +1,6 @@
 execute pathogen#infect()
 
+"NEOCOMPLETE SETTINGS"
 "use smartcase."
 let g:neocomplete#enable_smart_case = 1
 
@@ -12,7 +13,7 @@ let g:neocomplete#auto_completion_start_length = 1
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
 
-"for nerdcommenter"
+"NERDCOMMENTER SETTINGS"
 filetype plugin on
 
 syntax enable

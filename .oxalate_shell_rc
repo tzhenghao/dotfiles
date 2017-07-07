@@ -95,7 +95,7 @@ export PATH="/usr/local/sbin:$PATH"
 export PATH="$PATH:/$HOME/toolchains/arcanist/bin"
 
 # MagicSnippets scripts
-export PATH="$PATH:/Users/zhenghaotan/Dropbox/Projects/MagicSnippets"
+export PATH="$PATH:$HOME/Dropbox/Projects/MagicSnippets"
 
 alias meow='cat'
 
