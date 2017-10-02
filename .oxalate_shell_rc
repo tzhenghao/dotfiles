@@ -99,6 +99,15 @@ export PATH="$PATH:$HOME/Dropbox/Projects/MagicSnippets"
 
 alias meow='cat'
 
+# For note taking.
+notes() {
+  if [ "$1" == '' ]; then
+    less "$HOME/Dropbox/notes.txt"
+  else
+    echo "$@" >> "$HOME/Dropbox/notes.txt"
+  fi
+}
+
 # Help with extractions
 extract () {
   if [ -f "$1" ] ; then
