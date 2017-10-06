@@ -1,6 +1,5 @@
 execute pathogen#infect()
 
-"NEOCOMPLETE SETTINGS"
 "use smartcase."
 let g:neocomplete#enable_smart_case = 1
 
@@ -13,20 +12,29 @@ let g:neocomplete#auto_completion_start_length = 1
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
 
-"NERDCOMMENTER SETTINGS"
+"for nerdcommenter"
 filetype plugin on
-
-syntax enable
 
 "Default color scheme"
 set background=dark
 let g:solarized_termcolors=256
 colorscheme solarized
 
+syntax enable
 set guifont=Monaco:h12
 
 "Display number lines"
-set number
+set number relativenumber
+
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+
+nnoremap <F4> :set invnumber<CR>
+inoremap <F4> :set invnumber<CR>
+vnoremap <F4> :set invnumber<CR>
 
 "Enable 256 colors"
 set t_Co=256
@@ -65,6 +73,9 @@ set colorcolumn=80
 
 "Help with pasting"
 set pastetoggle=<F3>
+
+"Ignore case in filename completion"
+set wildignorecase
 
 "Ignore case in search patterns"
 set ignorecase
