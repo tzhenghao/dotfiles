@@ -112,6 +112,9 @@ export PATH="/usr/local/opt/gnu-getopt/bin:$PATH"
 export PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
 export MANPATH="/usr/local/opt/gnu-tar/libexec/gnuman:$MANPATH"
 
+# Python
+export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+
 # Arcanist
 export PATH="$PATH:/$HOME/toolchains/arcanist/bin"
 
@@ -147,6 +150,61 @@ extract () {
   else
     echo "'$1' is not a valid file!"
   fi
+}
+
+# Type Control-p to open interactive fzf search menu, and when Return is pressed,
+# it'll open it in vim.
+# shellcheck source=/dev/null
+bind -x '"\C-p": $EDITOR $(fzf);'
+
+# fd - cd to selected directory
+# shellcheck source=/dev/null
+fd() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
+                  -o -type d -print 2> /dev/null | fzf +m) &&
+  cd "$dir" || exit
+}
+
+# fdr - cd to selected parent directory
+# shellcheck source=/dev/null
+fdr() {
+  local dirs=()
+  get_parent_dirs() {
+    if [[ -d "${1}" ]]; then dirs+=("$1"); else return; fi
+    if [[ "${1}" == '/' ]]; then
+      for _dir in "${dirs[@]}"; do echo $_dir; done
+    else
+      get_parent_dirs $(dirname "$1")
+    fi
+  }
+  local DIR=$(get_parent_dirs $(realpath "${1:-$PWD}") | fzf-tmux --tac)
+  cd "$DIR" || exit
+}
+
+# fkill - kill process
+# shellcheck source=/dev/null
+fkill() {
+  local pid
+  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+
+  if [ "x$pid" != "x" ]
+  then
+    echo $"pid" | xargs kill -$"{1:-9}"
+  fi
+}
+
+
+# ftags - search ctags
+# shellcheck source=/dev/null
+ftags() {
+  local line
+  [ -e tags ] &&
+  line=$(
+    awk 'BEGIN { FS="\t" } !/^!/ {print toupper($4)"\t"$1"\t"$2"\t"$3}' tags |
+    cut -c1-80 | fzf --nth=1,2
+  ) && ${EDITOR:-vim} $(cut -f3 <<< "$line") -c "set nocst" \
+                                      -c "silent tag $(cut -f2 <<< "$line")"
 }
 
 # That's all folks!
