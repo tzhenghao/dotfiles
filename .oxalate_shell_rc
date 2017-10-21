@@ -154,16 +154,17 @@ extract () {
 
 # Type Control-p to open interactive fzf search menu, and when Return is pressed,
 # it'll open it in vim.
-# shellcheck source=/dev/null
+# shellcheck disable=SC2016
 bind -x '"\C-p": $EDITOR $(fzf);'
 
 # fd - cd to selected directory
 # shellcheck source=/dev/null
 fd() {
   local dir
+  # shellcheck disable=SC2086,SC2164
   dir=$(find ${1:-.} -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | fzf +m) &&
-  cd "$dir" || exit
+  cd "$dir"
 }
 
 # fdr - cd to selected parent directory
@@ -173,13 +174,17 @@ fdr() {
   get_parent_dirs() {
     if [[ -d "${1}" ]]; then dirs+=("$1"); else return; fi
     if [[ "${1}" == '/' ]]; then
+      # shellcheck disable=SC2086
       for _dir in "${dirs[@]}"; do echo $_dir; done
     else
+      # shellcheck disable=SC2046
       get_parent_dirs $(dirname "$1")
     fi
   }
+  # shellcheck disable=SC2046,SC2155
   local DIR=$(get_parent_dirs $(realpath "${1:-$PWD}") | fzf-tmux --tac)
-  cd "$DIR" || exit
+  # shellcheck disable=SC2164
+  cd "$DIR"
 }
 
 # fkill - kill process
@@ -196,7 +201,7 @@ fkill() {
 
 
 # ftags - search ctags
-# shellcheck source=/dev/null
+# shellcheck disable=SC2046
 ftags() {
   local line
   [ -e tags ] &&
