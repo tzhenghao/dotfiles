@@ -19,3 +19,6 @@ fi
 
 # shellcheck source=/dev/null
 [[ -f "$HOME/git_completion.bash" ]] && source "$HOME/git_completion.bash"
+
+# shellcheck source=/dev/null
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
