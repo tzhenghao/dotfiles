@@ -115,11 +115,20 @@ export MANPATH="/usr/local/opt/gnu-tar/libexec/gnuman:$MANPATH"
 # Python
 export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 
+# Rsync
+export PATH="/usr/local/opt/unzip/bin:$PATH"
+
 # Arcanist
 export PATH="$PATH:/$HOME/toolchains/arcanist/bin"
 
 # MagicSnippets scripts
 export PATH="$PATH:$HOME/Dropbox/Projects/MagicSnippets"
+
+# llvm
+export PATH="/usr/local/opt/llvm/bin:$PATH"
+
+# openSSL
+export PATH="/usr/local/opt/openssl/bin:$PATH"
 
 # For note taking.
 notes() {
@@ -151,11 +160,6 @@ extract () {
     echo "'$1' is not a valid file!"
   fi
 }
-
-# Type Control-p to open interactive fzf search menu, and when Return is pressed,
-# it'll open it in vim.
-# shellcheck disable=SC2016
-bind -x '"\C-p": $EDITOR $(fzf);'
 
 # fd - cd to selected directory
 # shellcheck source=/dev/null
