@@ -226,4 +226,6 @@ ftags() {
                                       -c "silent tag $(cut -f2 <<< "$line")"
 }
 
+alias countlines='git ls-files | xargs wc -l'
+
 # That's all folks!
