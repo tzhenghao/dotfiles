@@ -130,6 +130,9 @@ export PATH="/usr/local/opt/llvm/bin:$PATH"
 # openSSL
 export PATH="/usr/local/opt/openssl/bin:$PATH"
 
+# GPG
+export GPG_TTY=$(tty)
+
 # For note taking.
 notes() {
   if [ "$1" == '' ]; then
