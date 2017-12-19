@@ -131,6 +131,7 @@ export PATH="/usr/local/opt/llvm/bin:$PATH"
 export PATH="/usr/local/opt/openssl/bin:$PATH"
 
 # GPG
+# shellcheck disable=SC2155
 export GPG_TTY=$(tty)
 
 # For note taking.
@@ -199,6 +200,7 @@ fdr() {
 #   - Exit if there's no match (--exit-0)
 fe() {
   local files
+  # shellcheck disable=SC2207
   IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
   # shellcheck disable=SC2128
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
