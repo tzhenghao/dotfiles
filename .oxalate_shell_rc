@@ -1,8 +1,5 @@
 #!/bin/bash
 
-alias gcc='gcc-7'
-alias g++='g++-7'
-
 export CLICOLOR=1
 
 # BSD
@@ -11,7 +8,6 @@ export LSCOLORS='GxFxCxDxBxegedabagacedkk'
 # Linux
 export LS_COLORS='di=1;36:ln=1;35:so=1;32:pi=1;33:ex=1;31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=34;43'
 alias ls='ls --color=auto'
-
 
 # My own aliases.
 alias q='exit'
@@ -118,14 +114,20 @@ export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 # Rsync
 export PATH="/usr/local/opt/unzip/bin:$PATH"
 
+# LLVM
+export PATH="/usr/local/opt/llvm/bin:$PATH"
+
+# To use the bundled libc++ please add the following LDFLAGS:
+#   LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
+# For compilers to find this software you may need to set:
+#     LDFLAGS:  -L/usr/local/opt/llvm/lib
+#     CPPFLAGS: -I/usr/local/opt/llvm/include
+
 # Arcanist
 export PATH="$PATH:/$HOME/toolchains/arcanist/bin"
 
 # MagicSnippets scripts
 export PATH="$PATH:$HOME/Dropbox/Projects/MagicSnippets"
-
-# llvm
-export PATH="/usr/local/opt/llvm/bin:$PATH"
 
 # openSSL
 export PATH="/usr/local/opt/openssl/bin:$PATH"
@@ -133,6 +135,12 @@ export PATH="/usr/local/opt/openssl/bin:$PATH"
 # GPG
 # shellcheck disable=SC2155
 export GPG_TTY=$(tty)
+
+# Count lines in the git repository.
+alias countlines='git ls-files | xargs wc -l'
+
+# My daily logs.
+alias dailylog='gvim +'"'"'r!date'"'"' "$HOME/Dropbox/dailylog.txt"'
 
 # For note taking.
 notes() {
@@ -164,6 +172,11 @@ extract () {
     echo "'$1' is not a valid file!"
   fi
 }
+
+# Type Control-p to open interactive fzf search menu, and when Return is pressed,
+# it'll open it in vim.
+# shellcheck disable=SC2016
+bind -x '"\C-p": $EDITOR $(fzf);'
 
 # fd - cd to selected directory
 # shellcheck source=/dev/null
@@ -230,7 +243,5 @@ ftags() {
   ) && ${EDITOR:-vim} $(cut -f3 <<< "$line") -c "set nocst" \
                                       -c "silent tag $(cut -f2 <<< "$line")"
 }
-
-alias countlines='git ls-files | xargs wc -l'
 
 # That's all folks!
