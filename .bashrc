@@ -18,7 +18,7 @@ if [ -f ~/.oxalate_shell_rc ]; then
 fi
 
 # shellcheck source=/dev/null
-[[ -f "$HOME/git_completion.bash" ]] && source "$HOME/git_completion.bash"
+[[ -f "$HOME/git-completion.bash" ]] && source "$HOME/git-completion.bash"
 
 # shellcheck source=/dev/null
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
