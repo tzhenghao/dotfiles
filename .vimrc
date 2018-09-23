@@ -9,7 +9,7 @@ filetype plugin on
 "Default color scheme"
 set background=dark
 let g:solarized_termcolors=256
-colorscheme solarized
+colorscheme gruvbox
 
 syntax enable
 set guifont=Monaco:h12
@@ -41,6 +41,7 @@ set cursorline
 
 "Automatically load the file if it is modified"
 set autoread
+au CursorHold * checktime
 
 "no backup file - just use git"
 set nobackup
@@ -52,8 +53,8 @@ set noswapfile
 set laststatus=2
 
 "Indent settings"
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set smartindent
 
 "Change all tabs to spaces"
