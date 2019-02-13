@@ -9,6 +9,8 @@ export LSCOLORS='GxFxCxDxBxegedabagacedkk'
 export LS_COLORS='di=1;36:ln=1;35:so=1;32:pi=1;33:ex=1;31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=34;43'
 alias ls='ls --color=auto'
 
+export EDITOR='nvim'
+
 # My own aliases.
 alias q='exit'
 alias c='clear'
@@ -60,6 +62,9 @@ alias arduinoprojects='cd ~/Dropbox/Arduino'
 alias notebook='cd ~/Dropbox/Notebook'
 alias docs='cd ~/Documents'
 
+# Moar environment variables.
+alias d='docker'
+
 # Shortcuts to vimrc and bashrc
 alias vimrc='vim ~/.vimrc'
 alias bashrc='vim ~/.bashrc'
@@ -70,11 +75,8 @@ alias loadsecrets='source ~/.secrets.sh'
 
 # Typos.
 alias sl='ls'
+alias vim='nvim'
 alias givm='gvim'
-
-
-# Moar environment variables.
-export EDITOR=vim
 
 # Grep options
 alias grep='grep --color=auto --exclude=tags --exclude-dir=.git --exclude-dir=venv'
@@ -123,8 +125,9 @@ export PATH="/usr/local/opt/llvm/bin:$PATH"
 #     LDFLAGS:  -L/usr/local/opt/llvm/lib
 #     CPPFLAGS: -I/usr/local/opt/llvm/include
 
-# Arcanist
-export PATH="$PATH:/$HOME/toolchains/arcanist/bin"
+# Google Cloud SDK CLI completion
+. '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc'
+. '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc'
 
 # MagicSnippets scripts
 export PATH="$PATH:$HOME/Dropbox/Projects/MagicSnippets"
@@ -140,7 +143,7 @@ export GPG_TTY=$(tty)
 alias countlines='git ls-files | xargs wc -l'
 
 # My daily logs.
-alias dailylog='gvim +'"'"'r!date'"'"' "$HOME/Dropbox/dailylog.txt"'
+alias dailylog='"$EDITOR" +'"'"'r!date'"'"' "$HOME/Dropbox/daily_log.txt"'
 
 # For note taking.
 notes() {
