@@ -11,9 +11,7 @@ They are all in their original file formats as I want them to be short, simple a
 1. Vim (`.vimrc`)
 2. Bash (`.bashrc`)
 3. Zsh (`.zshrc`)
-4. Sublime Text 3 plugins and settings
-5. Homebrew packages
-6. Python pip packages
+4. Tmux (`.tmux.conf`)
+5. Git (`.gitconfig`)
+6. Alacritty (`alacritty.yml`)
 7. `.Xmodmap` - swaps Control and Caps Lock keys
-8. `.tmux.conf` config file
-9. `.gitconfig` file
