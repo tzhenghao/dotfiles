@@ -32,13 +32,14 @@ syntax enable
 set guifont=Monaco:h12
 
 "Display number lines"
-set number relativenumber
+" set number relativenumber
+set number
 
-augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-augroup END
+" augroup numbertoggle
+  " autocmd!
+  " autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  " autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+" augroup END
 
 nnoremap <F4> :set invnumber<CR>
 inoremap <F4> :set invnumber<CR>
