@@ -51,14 +51,6 @@ alias all='git add .'
 
 # Shortcuts to my software projects
 alias projects='cd ~/Dropbox/Projects'
-alias iosprojects='cd ~/Dropbox/Projects/iOSProjects'
-alias pebbleprojects='cd ~/Dropbox/Projects/PebbleProjects'
-alias cppprojects='cd ~/Dropbox/Projects/C++Projects'
-alias cprojects='cd ~/Dropbox/Projects/CProjects'
-alias pythonprojects='cd ~/Dropbox/Projects/PythonProjects'
-alias goprojects='cd ~/Dropbox/Projects/GoProjects'
-alias rustprojects='cd ~/Dropbox/Projects/RustProjects'
-alias arduinoprojects='cd ~/Dropbox/Arduino'
 alias notebook='cd ~/Dropbox/Notebook'
 alias docs='cd ~/Documents'
 
@@ -76,6 +68,7 @@ alias loadsecrets='source ~/.secrets.sh'
 # Typos.
 alias sl='ls'
 alias vim='nvim'
+alias view='nvim -R'
 alias givm='gvim'
 
 # Grep options
