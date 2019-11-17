@@ -145,5 +145,7 @@ nmap f /
 "Remap Vim 0 to first non-blank char"
 nmap 0 ^
 
+nmap <Leader>f :FZF<CR>
+
 " If installed using Homebrew
 set rtp+=/usr/local/opt/fzf
