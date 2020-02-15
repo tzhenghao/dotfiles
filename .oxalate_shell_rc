@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# CHEAT SHEET
+# Kill all other open tmux sessions: <TMUX PREFIX>-D
+
 export CLICOLOR=1
 
 # BSD
