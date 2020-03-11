@@ -122,8 +122,8 @@ export PATH="/usr/local/opt/llvm/bin:$PATH"
 #     CPPFLAGS: -I/usr/local/opt/llvm/include
 
 # Google Cloud SDK CLI completion
-. '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc'
-. '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc'
+# . '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc'
+# . '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc'
 
 # MagicSnippets scripts
 export PATH="$PATH:$HOME/Dropbox/Projects/MagicSnippets"
@@ -140,6 +140,14 @@ alias countlines='git ls-files | xargs wc -l'
 
 # My daily logs.
 alias dailylog='"$EDITOR" +'"'"'r!date'"'"' "$HOME/Dropbox/daily_log.txt"'
+
+# Reformat single and double quotes to ' and ".
+reformat_quotes() {
+  sed -i -E 's/“/\"/g' "$1"
+  sed -i -E 's/”/\"/g' "$1"
+  sed -i -E 's/’/'"'"'/g' "$1"
+  sed -i -E 's/‘/'"'"'/g' "$1"
+}
 
 # For note taking.
 notes() {
@@ -175,7 +183,7 @@ extract () {
 # Type Control-p to open interactive fzf search menu, and when Return is pressed,
 # it'll open it in vim.
 # shellcheck disable=SC2016
-bind -x '"\C-p": $EDITOR $(fzf);'
+# bind -x '"\C-p": $EDITOR $(fzf);'
 
 # fd - cd to selected directory
 # shellcheck source=/dev/null
