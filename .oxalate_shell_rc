@@ -143,10 +143,13 @@ alias dailylog='"$EDITOR" +'"'"'r!date'"'"' "$HOME/Dropbox/daily_log.txt"'
 
 # Reformat single and double quotes to ' and ".
 reformat_quotes() {
-  sed -i -E 's/“/\"/g' "$1"
-  sed -i -E 's/”/\"/g' "$1"
-  sed -i -E 's/’/'"'"'/g' "$1"
-  sed -i -E 's/‘/'"'"'/g' "$1"
+  for file in "$@"
+  do
+    sed -i -E 's/“/\"/g' "$file"
+    sed -i -E 's/”/\"/g' "$file"
+    sed -i -E 's/’/'"'"'/g' "$file"
+    sed -i -E 's/‘/'"'"'/g' "$file"
+  done
 }
 
 # For note taking.
