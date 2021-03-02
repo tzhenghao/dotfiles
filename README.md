@@ -15,3 +15,39 @@ They are all in their original file formats as I want them to be short, simple a
 5. Git (`.gitconfig`)
 6. Alacritty (`alacritty.yml`)
 7. `.Xmodmap` - swaps Control and Caps Lock keys
+
+
+## **Software Settings**
+
+### **Ubuntu**
+
+Setting Night Light/Shift feature intensity:
+
+```bash
+gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 5000
+```
+
+Disable mouse acceleration:
+
+```bash
+xset m 0 0
+```
+
+```bash
+gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 30
+gsettings set org.gnome.desktop.peripherals.keyboard delay 270
+```
+
+### **MacOS**
+
+Key repeat: fast
+
+Delay until repeat: shortest
+
+**iOS**
+
+Key repeat: 0.05sec
+
+Delay until repeat: 0.20sec
+
+1. Install Homebrew
