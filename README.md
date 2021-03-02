@@ -17,7 +17,7 @@ They are all in their original file formats as I want them to be short, simple a
 7. `.Xmodmap` - swaps Control and Caps Lock keys
 
 
-## **Software Settings**
+## **OS Specific Settings**
 
 ### **Ubuntu**
 
@@ -40,14 +40,14 @@ gsettings set org.gnome.desktop.peripherals.keyboard delay 270
 
 ### **MacOS**
 
+Make sure Homebrew is installed!
+
 Key repeat: fast
 
 Delay until repeat: shortest
 
-**iOS**
+### **iOS**
 
 Key repeat: 0.05sec
 
 Delay until repeat: 0.20sec
-
-1. Install Homebrew
