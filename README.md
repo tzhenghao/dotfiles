@@ -46,6 +46,13 @@ Key repeat: fast
 
 Delay until repeat: shortest
 
+Disable mouse acceleration:
+
+```bash
+defaults read .GlobalPreferences com.apple.mouse.scaling
+defaults write .GlobalPreferences com.apple.mouse.scaling -1
+```
+
 ### **iOS**
 
 Key repeat: 0.05sec
