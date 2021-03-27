@@ -40,7 +40,9 @@ gsettings set org.gnome.desktop.peripherals.keyboard delay 270
 
 ### **MacOS**
 
-Make sure Homebrew is installed!
+Make sure the following packages are installed:
+1. [vim-plug](https://github.com/junegunn/vim-plug)
+2. [Homebrew](https://brew.sh)
 
 Key repeat: fast
 
@@ -52,6 +54,9 @@ Disable mouse acceleration:
 defaults read .GlobalPreferences com.apple.mouse.scaling
 defaults write .GlobalPreferences com.apple.mouse.scaling -1
 ```
+
+Change Caps Lock key to Control:
+System Preferences -> Keyboard -> Modifier Keys -> change Caps Lock to Control
 
 ### **iOS**
 
