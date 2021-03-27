@@ -55,8 +55,8 @@ defaults read .GlobalPreferences com.apple.mouse.scaling
 defaults write .GlobalPreferences com.apple.mouse.scaling -1
 ```
 
-Change Caps Lock key to Control:
-System Preferences -> Keyboard -> Modifier Keys -> change Caps Lock to Control
+Change Caps Lock key to Control: \
+*System Preferences -> Keyboard -> Modifier Keys -> change Caps Lock to Control*
 
 ### **iOS**
 
