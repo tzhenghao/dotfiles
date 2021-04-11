@@ -43,6 +43,7 @@ gsettings set org.gnome.desktop.peripherals.keyboard delay 270
 Make sure the following packages are installed:
 1. [vim-plug](https://github.com/junegunn/vim-plug)
 2. [Homebrew](https://brew.sh)
+3. [fzf](https://github.com/junegunn/fzf)
 
 Key repeat: fast
 
