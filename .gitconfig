@@ -1,7 +1,7 @@
 # This is Git's per-user configuration file.
 [user]
-  name = tzhenghao
-  email = tanzhao@umich.edu
+  name = Zheng Hao Tan
+  email = hi@zhenghaotan.com
 
 [alias]
   all = add .
