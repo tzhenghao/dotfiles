@@ -1,6 +1,3 @@
-#!/bin/bash
-
-# CHEAT SHEET
 # Kill all other open tmux sessions: <TMUX PREFIX>-D
 
 export CLICOLOR=1
@@ -10,7 +7,7 @@ export LSCOLORS='GxFxCxDxBxegedabagacedkk'
 
 # Linux
 export LS_COLORS='di=1;33:ln=1;35:so=1;32:pi=1;33:ex=1;31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=34;43'
-alias ls='ls --color=auto'
+#alias ls='ls --color=auto'
 
 export EDITOR='nvim'
 
@@ -29,8 +26,6 @@ alias t='time'
 alias rm='rm -i'
 
 # Directories
-alias home='cd ~'
-alias root='cd /'
 alias dtop='cd ~/Desktop'
 alias dbox='cd ~/Dropbox'
 alias box='cd ~/Box\ Sync'
@@ -53,8 +48,6 @@ alias u='git add -u'
 alias all='git add .'
 
 # Shortcuts to my software projects
-alias projects='cd ~/Dropbox/Projects'
-alias notebook='cd ~/Dropbox/Notebook'
 alias docs='cd ~/Documents'
 
 # Moar environment variables.
@@ -79,16 +72,6 @@ alias grep='grep --color=auto --exclude=tags --exclude-dir=.git --exclude-dir=ve
 
 # Ctags.
 alias gentags='ctags -R .'
-
-# ARM toolchain
-export PATH="$PATH:~/toolchains/gcc-arm-none-eabi-4_9-2015q3/bin"
-
-# MSP toolchain
-export PATH="$PATH:~/toolchains/ti/gcc/bin"
-
-# CUDA toolchain
-export PATH="$PATH:/Developer/NVIDIA/CUDA-8.0/bin"
-export DYLD_LIBRARY_PATH="$DYLD_LIBRARY_PATH:/Developer/NVIDIA/CUDA-8.0/lib"
 
 export PATH="/usr/local/sbin:$PATH"
 
@@ -124,9 +107,6 @@ export PATH="/usr/local/opt/llvm/bin:$PATH"
 # Google Cloud SDK CLI completion
 # . '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc'
 # . '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc'
-
-# MagicSnippets scripts
-export PATH="$PATH:$HOME/Dropbox/Projects/MagicSnippets"
 
 # openSSL
 export PATH="/usr/local/opt/openssl/bin:$PATH"
@@ -181,158 +161,4 @@ extract () {
   else
     echo "'$1' is not a valid file!"
   fi
-}
-
-# Type Control-p to open interactive fzf search menu, and when Return is pressed,
-# it'll open it in vim.
-# shellcheck disable=SC2016
-# bind -x '"\C-p": $EDITOR $(fzf);'
-
-# fd - cd to selected directory
-# shellcheck source=/dev/null
-fd() {
-  local dir
-  # shellcheck disable=SC2086,SC2164
-  dir=$(find ${1:-.} -path '*/\.*' -prune \
-                  -o -type d -print 2> /dev/null | fzf +m) &&
-  cd "$dir"
-}
-
-# fdr - cd to selected parent directory
-# shellcheck source=/dev/null
-fdr() {
-  local dirs=()
-  get_parent_dirs() {
-    if [[ -d "${1}" ]]; then dirs+=("$1"); else return; fi
-    if [[ "${1}" == '/' ]]; then
-      # shellcheck disable=SC2086
-      for _dir in "${dirs[@]}"; do echo $_dir; done
-    else
-      # shellcheck disable=SC2046
-      get_parent_dirs $(dirname "$1")
-    fi
-  }
-  # shellcheck disable=SC2046,SC2155
-  local DIR=$(get_parent_dirs $(realpath "${1:-$PWD}") | fzf-tmux --tac)
-  # shellcheck disable=SC2164
-  cd "$DIR"
-}
-
-# fe [FUZZY PATTERN] - Open the selected file with the default editor
-#   - Bypass fuzzy finder if there's only one match (--select-1)
-#   - Exit if there's no match (--exit-0)
-fe() {
-  local files
-  # shellcheck disable=SC2207
-  IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
-  # shellcheck disable=SC2128
-  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
-}
-
-# fkill - kill process
-# shellcheck source=/dev/null
-fkill() {
-  local pid
-  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-
-  if [ "x$pid" != "x" ]
-  then
-    echo $"pid" | xargs kill -$"{1:-9}"
-  fi
-}
-
-
-# ftags - search ctags
-# shellcheck disable=SC2046
-ftags() {
-  local line
-  [ -e tags ] &&
-  line=$(
-    awk 'BEGIN { FS="\t" } !/^!/ {print toupper($4)"\t"$1"\t"$2"\t"$3}' tags |
-    cut -c1-80 | fzf --nth=1,2
-  ) && ${EDITOR:-vim} $(cut -f3 <<< "$line") -c "set nocst" \
-                                      -c "silent tag $(cut -f2 <<< "$line")"
-}
-
-# That's all folks!
-
-## Generic
-
-function gregions() {
-  REGIONS=$(gcloud compute regions list)
-  echo $REGIONS | cut -d " " -f 1 | tail -n +2
-}
-
-function gzones() {
-  ZONES=$(gcloud compute zones list)
-  echo $ZONES | cut -d " " -f 1 | tail -n +2
-}
-
-function gproject_set() {
-  gcloud config set project $1
-}
-
-function gproject() {
-  gcloud config get-value project
-}
-
-function gprojects() {
-  gcloud projects list
-}
-
-function set_zone() {
-  gcloud config set compute/zone $1
-}
-
-function set_region() {
-  gcloud config set compute/region $1
-}
-
-## Compute
-
-function allow_http_ports() {
-  allow_port 80
-  allow_port 443
-}
-
-function allow_port() {
-  gcloud compute firewall-rules create allow-port-$1 --allow tcp:$1
-}
-
-function gssh() {
-  gcloud compute ssh $@
-}
-
-function gssh_8080() {
-  gssh $1 -- -L 8080:localhost:8080
-}
-
-function ginstances() {
-  gcloud compute instances list
-}
-
-function ginstance_delete() {
-  gcloud compute instances delete --quiet $@
-}
-
-function ginstance_stop() {
-  gcloud compute instances stop --quiet $@
-}
-
-function ginstance_start() {
-  gcloud compute instances start --quiet $@
-}
-
-function ginstance_describe() {
-  gcloud compute instances describe $@
-}
-
-function ginstance_serial_logs() {
-  gcloud compute instances get-serial-port-output $@
-}
-
-## Composer
-
-function composer_run() {
-  gcloud beta composer environments run $1 --location=us-central1 $2 -- $3
 }
