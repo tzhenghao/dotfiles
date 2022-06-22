@@ -42,8 +42,10 @@
 
 [diff]
   tool = icdiff
+
 [difftool]
   prompt = false
+
 [difftool "icdiff"]
   cmd = /usr/local/bin/icdiff --line-numbers $LOCAL $REMOTE
 
@@ -57,6 +59,7 @@
 
 [fetch]
   fsckobjects = true
+  prune = true
 
 [receive]
   fsckobjects = true
@@ -67,5 +70,5 @@
 [status]
   showUntrackedFiles = all
 
-[help]
-  autocorrect = 1
+[core]
+  editor = vim
