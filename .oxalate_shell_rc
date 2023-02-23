@@ -30,7 +30,7 @@ alias dtop='cd ~/Desktop'
 alias dbox='cd ~/Dropbox'
 alias box='cd ~/Box\ Sync'
 alias gdrive='cd ~/Google\ Drive'
-alias code='cd ~/code'
+alias code='cd ~/Developer'
 alias o=open
 alias ..='cd ..'
 alias ...='cd ..; cd ..'
@@ -81,6 +81,7 @@ export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
 # Curl
 export PATH="/usr/local/opt/curl/bin:$PATH"
+export PATH="/opt/homebrew/opt/curl/bin:$PATH"
 
 # Getopt
 export PATH="/usr/local/opt/gnu-getopt/bin:$PATH"
@@ -90,7 +91,7 @@ export PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
 export MANPATH="/usr/local/opt/gnu-tar/libexec/gnuman:$MANPATH"
 
 # Python
-export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+# export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 
 # Rsync
 export PATH="/usr/local/opt/unzip/bin:$PATH"
