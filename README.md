@@ -56,6 +56,14 @@ defaults read .GlobalPreferences com.apple.mouse.scaling
 defaults write .GlobalPreferences com.apple.mouse.scaling -1
 ```
 
+Vim for VSCode
+
+Enable key repeats:
+
+```bash
+defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
+```
+
 Change Caps Lock key to Control: \
 *System Preferences -> Keyboard -> Modifier Keys -> change Caps Lock to Control*
 
