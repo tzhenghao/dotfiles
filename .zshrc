@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH=/Users/0xalate/.oh-my-zsh
+export ZSH=/Users/0xalate/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -97,7 +97,5 @@ source $ZSH/oh-my-zsh.sh
 if [ -f ~/.oxalate_shell_rc ]; then
   . ~/.oxalate_shell_rc
 fi
-
-[[ -f "$HOME/git_completion.zsh" ]] && source "$HOME/git_completion.zsh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
