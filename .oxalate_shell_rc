@@ -30,7 +30,6 @@ alias dtop='cd ~/Desktop'
 alias dbox='cd ~/Dropbox'
 alias box='cd ~/Box\ Sync'
 alias gdrive='cd ~/Google\ Drive'
-alias code='cd ~/Developer'
 alias o=open
 alias ..='cd ..'
 alias ...='cd ..; cd ..'
