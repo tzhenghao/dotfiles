@@ -74,7 +74,10 @@ alias gentags='ctags -R .'
 
 export PATH="/usr/local/sbin:$PATH"
 
-# Coreutils
+# brew install binutils
+export PATH="/opt/homebrew/opt/binutils/bin:$PATH"
+
+# brew install coreutils
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
