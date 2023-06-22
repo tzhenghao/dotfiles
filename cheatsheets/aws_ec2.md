@@ -24,7 +24,8 @@ Default user is `ubuntu`.
 `chmod 600 .ssh/authorized_keys`
 
 Set a password:
-`sudo passwd tzhenghao`
+
+Exit and go back as `ubuntu` user, then run `sudo passwd tzhenghao`
 
 
 ### Granting tzhenghao sudo privileges
@@ -45,26 +46,12 @@ From [here](https://docs.docker.com/engine/install/linux-postinstall).
 
 `sudo userdel -r olduser`
 
-## Set Up tmux
-
 ## Set Up mosh
 
+`sudo apt install mosh`
 
 Make sure AWS security group allows inbound connection from the UDP port ranges
 60000-61000
 
 ## Set Up Git / GitHub
-
-
-## Other Tools
-
-```
-sudo yum install util-linux-user
-sudo yum install zsh
-```
-then install oh-my-zsh
-
-htop
-`sudo yum install htop`
-
 
