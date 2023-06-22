@@ -13,7 +13,7 @@ mkdir .ssh
 chmod 700 .ssh
 touch .ssh/authorized_keys
 chmod 600 .ssh/authorized_keys
-
+sudo passwd tzhenghao
 
 # (Optional): Removing a User
 
