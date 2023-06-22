@@ -1,15 +1,17 @@
 # AWS EC2 dev box guide
 
 Default instance type: `g4dn.2xlarge`
-AMI Name: Deep Learning AMI GPU PyTorch 2.0.1 (Amazon Linux 2) 20230613
 
-Allocate static / elastic IP for the newly created instance:
-https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-allocating
+AMI Name: *Deep Learning AMI GPU PyTorch 2.0.1 (Ubuntu 20.04) 20230620*
+
+[Allocate static / elastic IP for the newly created instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-allocating)
 
 From [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/managing-users.html#create-user-account)
 
+Default user is `ubuntu`.
+
 ## Add new user
-`sudo adduser tzhenghao`
+`sudo adduser newuser --disabled-password`
 `sudo su - tzhenghao`
 `mkdir .ssh`
 `chmod 700 .ssh`
@@ -37,6 +39,16 @@ From [here](https://docs.docker.com/engine/install/linux-postinstall).
 ### (Optional): Removing a User
 
 `sudo userdel -r olduser`
+
+## Set Up tmux
+
+## Set Up mosh
+
+`sudo amazon-linux-extras install epel`
+`sudo yum install mosh`
+
+Make sure AWS security group allows inbound connection from the UDP port ranges
+60000-61000
 
 ## Set Up Git / GitHub
 
