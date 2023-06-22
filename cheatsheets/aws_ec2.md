@@ -12,10 +12,15 @@ Default user is `ubuntu`.
 
 ## Add new user
 `sudo adduser tzhenghao --disabled-password`
+
 `sudo su - tzhenghao`
+
 `mkdir .ssh`
+
 `chmod 700 .ssh`
+
 `touch .ssh/authorized_keys`
+
 `chmod 600 .ssh/authorized_keys`
 
 Set a password:
@@ -44,8 +49,6 @@ From [here](https://docs.docker.com/engine/install/linux-postinstall).
 
 ## Set Up mosh
 
-`sudo amazon-linux-extras install epel`
-`sudo yum install mosh`
 
 Make sure AWS security group allows inbound connection from the UDP port ranges
 60000-61000
