@@ -3,6 +3,9 @@
 Default instance type: `g4dn.2xlarge`
 AMI Name: Deep Learning AMI GPU PyTorch 2.0.1 (Amazon Linux 2) 20230613
 
+Allocate static / elastic IP for the newly created instance:
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-allocating
+
 From:
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/managing-users.html#create-user-account
 
@@ -14,6 +17,9 @@ chmod 700 .ssh
 touch .ssh/authorized_keys
 chmod 600 .ssh/authorized_keys
 sudo passwd tzhenghao
+
+### Adding as sudo
+sudo usermod -a -G wheel tzhenghao
 
 # (Optional): Removing a User
 
