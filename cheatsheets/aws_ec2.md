@@ -11,7 +11,7 @@ From [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/managing-users.h
 Default user is `ubuntu`.
 
 ## Add new user
-`sudo adduser newuser --disabled-password`
+`sudo adduser tzhenghao --disabled-password`
 `sudo su - tzhenghao`
 `mkdir .ssh`
 `chmod 700 .ssh`
