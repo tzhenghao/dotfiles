@@ -19,6 +19,7 @@ From [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/managing-users.h
 Set a password:
 `sudo passwd tzhenghao`
 
+
 ### Granting tzhenghao sudo privileges
 `sudo usermod -a -G wheel tzhenghao`
 
@@ -29,6 +30,22 @@ From [here](https://docs.docker.com/engine/install/linux-postinstall).
 
 `sudo usermod -aG docker $USER`
 
+
+### AWS Deep Learning AMI with PyTorch 2.0.1
+`source activate pytorch`
+
 # (Optional): Removing a User
 
 `sudo userdel -r olduser`
+
+
+## Other Tools
+
+```
+sudo yum install util-linux-user
+sudo yum install zsh
+```
+then install oh-my-zsh
+
+htop
+`sudo yum install htop`
