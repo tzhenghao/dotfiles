@@ -8,7 +8,7 @@ https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.htm
 
 From [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/managing-users.html#create-user-account)
 
-### Add new user
+## Add new user
 `sudo adduser tzhenghao`
 `sudo su - tzhenghao`
 `mkdir .ssh`
@@ -34,9 +34,11 @@ From [here](https://docs.docker.com/engine/install/linux-postinstall).
 ### AWS Deep Learning AMI with PyTorch 2.0.1
 `source activate pytorch`
 
-# (Optional): Removing a User
+### (Optional): Removing a User
 
 `sudo userdel -r olduser`
+
+## Set Up Git / GitHub
 
 
 ## Other Tools
@@ -49,3 +51,5 @@ then install oh-my-zsh
 
 htop
 `sudo yum install htop`
+
+
