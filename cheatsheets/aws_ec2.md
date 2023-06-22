@@ -54,4 +54,4 @@ Make sure AWS security group allows inbound connection from the UDP port ranges
 60000-61000
 
 ## Set Up Git / GitHub
-
+Follow instructions [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
