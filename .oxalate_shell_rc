@@ -1,5 +1,3 @@
-# Kill all other open tmux sessions: <TMUX PREFIX>-D
-
 export CLICOLOR=1
 
 # BSD
@@ -77,42 +75,20 @@ export PATH="/usr/local/sbin:$PATH"
 # brew install binutils
 export PATH="/opt/homebrew/opt/binutils/bin:$PATH"
 
-# brew install coreutils
-export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-
-# Curl
-export PATH="/usr/local/opt/curl/bin:$PATH"
-export PATH="/opt/homebrew/opt/curl/bin:$PATH"
-
-# Getopt
-export PATH="/usr/local/opt/gnu-getopt/bin:$PATH"
-
-# Tar
-export PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
-export MANPATH="/usr/local/opt/gnu-tar/libexec/gnuman:$MANPATH"
-
-# Python
-# export PATH="/usr/local/opt/python/libexec/bin:$PATH"
-
-# Rsync
-export PATH="/usr/local/opt/unzip/bin:$PATH"
-
 # LLVM
-export PATH="/usr/local/opt/llvm/bin:$PATH"
+# llvm is keg-only, which means it was not symlinked into /opt/homebrew,
+# because macOS already provides this software and installing another version in
+# parallel can cause all kinds of trouble.
+
+# If you need to have llvm first in your PATH, run:
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
 # To use the bundled libc++ please add the following LDFLAGS:
-#   LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
-# For compilers to find this software you may need to set:
-#     LDFLAGS:  -L/usr/local/opt/llvm/lib
-#     CPPFLAGS: -I/usr/local/opt/llvm/include
+# LDFLAGS="-L/opt/homebrew/opt/llvm/lib/c++ -Wl,-rpath,/opt/homebrew/opt/llvm/lib/c++"
 
-# Google Cloud SDK CLI completion
-# . '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc'
-# . '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc'
-
-# openSSL
-export PATH="/usr/local/opt/openssl/bin:$PATH"
+# For compilers to find llvm you may need to set:
+export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 
 # GPG
 # shellcheck disable=SC2155
