@@ -24,28 +24,21 @@ alias t='time'
 alias rm='rm -i'
 
 # Directories
-alias dtop='cd ~/Desktop'
 alias dbox='cd ~/Dropbox'
-alias box='cd ~/Box\ Sync'
-alias gdrive='cd ~/Google\ Drive'
+alias docs='cd ~/Documents'
+alias dtop='cd ~/Desktop'
 alias o=open
 alias ..='cd ..'
 alias ...='cd ..; cd ..'
 alias ....='cd ..; cd ..; cd ..'
-alias pv='cd -'
 
 # Git Shortcuts
 alias g='git'
 alias st='git status'
 alias com='git commit -m'
 alias clone='git clone'
-alias sth='git stash'
 alias lg='git log'
 alias u='git add -u'
-alias all='git add .'
-
-# Shortcuts to my software projects
-alias docs='cd ~/Documents'
 
 # Moar environment variables.
 alias d='docker'
