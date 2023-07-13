@@ -5,7 +5,6 @@ export LSCOLORS='GxFxCxDxBxegedabagacedkk'
 
 # Linux
 export LS_COLORS='di=1;33:ln=1;35:so=1;32:pi=1;33:ex=1;31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=34;43'
-#alias ls='ls --color=auto'
 
 export EDITOR='nvim'
 
@@ -14,13 +13,10 @@ alias q='exit'
 alias c='clear'
 alias h='history'
 alias cs='clear;ls'
-alias p='cat'
-alias pd='pwd'
 alias lsa='ls -a'
 alias lsl='ls -l'
 alias pd='pwd'
 alias null='/dev/null'
-alias t='time'
 alias rm='rm -i'
 
 # Directories
@@ -52,10 +48,8 @@ alias loadzsh='source ~/.zshrc'
 alias loadsecrets='source ~/.secrets.sh'
 
 # Typos.
-alias sl='ls'
 alias vim='nvim'
 alias view='nvim -R'
-alias givm='gvim'
 
 # Grep options
 alias grep='grep --color=auto --exclude=tags --exclude-dir=.git --exclude-dir=venv'
