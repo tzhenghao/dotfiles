@@ -7,19 +7,19 @@
 Here are some of my software development configurations.
 They are all in their original file formats as I want them to be short, simple and easy to refer to. Enjoy!
 
-## Configurations For:
+## Configurations For
+
 1. Vim (`.vimrc`)
 2. Bash (`.bashrc`)
 3. Zsh (`.zshrc`)
 4. Tmux (`.tmux.conf`)
 5. Git (`.gitconfig`)
-6. Alacritty (`alacritty.yml`)
+6. Alacritty (`alacritty.toml`) - add to `~/.config/alacritty/alacritty.toml`
 7. `.Xmodmap` - swaps Control and Caps Lock keys
 
+## OS Specific Settings
 
-## **OS Specific Settings**
-
-### **Ubuntu**
+### Ubuntu
 
 Setting Night Light/Shift feature intensity:
 
@@ -27,7 +27,7 @@ Setting Night Light/Shift feature intensity:
 gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 5000
 ```
 
-Disable mouse acceleration:
+#### Disabling mouse acceleration
 
 ```bash
 xset m 0 0
@@ -38,25 +38,34 @@ gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 30
 gsettings set org.gnome.desktop.peripherals.keyboard delay 270
 ```
 
-### **MacOS**
+### MacOS
 
 Make sure the following packages are installed:
+
 1. [vim-plug](https://github.com/junegunn/vim-plug)
 2. [Homebrew](https://brew.sh)
 3. [fzf](https://github.com/junegunn/fzf)
 
-Key repeat: fast
+#### Key repeat
 
-Delay until repeat: shortest
+fast
 
-Disable mouse acceleration:
+#### Delay until repeat
+
+shortest
+
+#### Disabling mouse acceleration
 
 ```bash
 defaults read .GlobalPreferences com.apple.mouse.scaling
 defaults write .GlobalPreferences com.apple.mouse.scaling -1
 ```
 
-Vim for VSCode
+#### Mac Terminal App color settings
+
+![Mac Terminal App color settings](images/mac-terminal-app-color-settings.png)
+
+#### Vim for VSCode
 
 Enable key repeats:
 
@@ -67,7 +76,7 @@ defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
 Change Caps Lock key to Control: \
 *System Preferences -> Keyboard -> Modifier Keys -> change Caps Lock to Control*
 
-### **iOS**
+### iOS
 
 Key repeat: 0.05sec
 
