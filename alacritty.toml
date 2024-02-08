@@ -1,0 +1,8 @@
+# Font configuration
+[font]
+size = 11.0
+
+# Cursor configuration
+[cursor]
+style = { blinking = "On" }
+blink_interval = 500
