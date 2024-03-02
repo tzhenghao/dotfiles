@@ -45,6 +45,7 @@ Make sure the following packages are installed:
 1. [vim-plug](https://github.com/junegunn/vim-plug)
 2. [Homebrew](https://brew.sh)
 3. [fzf](https://github.com/junegunn/fzf)
+    - Also add fzf shell integration (see `fzf.zsh` file)
 
 #### Key repeat
 
