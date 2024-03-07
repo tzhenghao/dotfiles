@@ -1,5 +1,8 @@
 # User configuration
 
+# Always start in emacs mode
+bindkey -e
+
 PS1='%F{red}%* %F{cyan}(%~) %(?.%F{green}.%F{red})%#%f '
 
 # Get the aliases and functions
