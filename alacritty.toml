@@ -6,3 +6,7 @@ size = 11.0
 [cursor]
 style = { blinking = "On" }
 blink_interval = 500
+
+[window]
+option_as_alt = "Both"
+
