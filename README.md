@@ -66,6 +66,8 @@ defaults write .GlobalPreferences com.apple.mouse.scaling -1
 
 ![Mac Terminal App color settings](images/mac-terminal-app-color-settings.png)
 
+![Mac Terminal App keyboard settings](images/mac-terminal-app-keyboard-settings.png)
+
 #### MacOS Stage Manager settings
 
 1. Open a new "Desktop" then right click on Finder -> Options -> Assign To -> All Desktops
