@@ -15,5 +15,5 @@ if [ -f ~/.oxalate_shell_rc ]; then
   . ~/.oxalate_shell_rc
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval "$(fzf --zsh)"
 
