@@ -10,12 +10,13 @@ They are all in their original file formats as I want them to be short, simple a
 ## Configurations For
 
 1. Vim (`.vimrc`)
-2. Bash (`.bashrc`)
-3. Zsh (`.zshrc`)
-4. Tmux (`.tmux.conf`)
-5. Git (`.gitconfig`)
-6. Alacritty (`alacritty.toml`) - add to `~/.config/alacritty/alacritty.toml`
-7. `.Xmodmap` - swaps Control and Caps Lock keys
+2. Neovim (`neovim/`)
+3. Bash (`.bashrc`)
+4. Zsh (`.zshrc`)
+5. Tmux (`.tmux.conf`)
+6. Git (`.gitconfig`)
+7. Alacritty (`alacritty.toml`) - add to `~/.config/alacritty/alacritty.toml`
+8. `.Xmodmap` - swaps Control and Caps Lock keys
 
 ## OS Specific Settings
 
