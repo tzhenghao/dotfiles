@@ -10,12 +10,12 @@ They are all in their original file formats as I want them to be short, simple a
 ## Configurations For
 
 1. Vim (`.vimrc`)
-2. Neovim (`neovim/`)
+2. Neovim (`.config/nvim/`)
 3. Bash (`.bashrc`)
 4. Zsh (`.zshrc`)
 5. Tmux (`.tmux.conf`)
 6. Git (`.gitconfig`)
-7. Alacritty (`alacritty.toml`) - add to `~/.config/alacritty/alacritty.toml`
+7. Alacritty (`~/.config/alacritty/alacritty.toml`)
 8. `.Xmodmap` - swaps Control and Caps Lock keys
 
 ## OS Specific Settings
@@ -43,10 +43,10 @@ gsettings set org.gnome.desktop.peripherals.keyboard delay 270
 
 Make sure the following packages are installed:
 
-1. [vim-plug](https://github.com/junegunn/vim-plug)
-2. [Homebrew](https://brew.sh)
-3. [fzf](https://github.com/junegunn/fzf)
+1. [Homebrew](https://brew.sh)
+2. [fzf](https://github.com/junegunn/fzf)
     - Also add fzf shell integration (see `fzf.zsh` file)
+3. (Optional, only for vim-plug based workflow) [vim-plug](https://github.com/junegunn/vim-plug)
 
 #### Key repeat
 
