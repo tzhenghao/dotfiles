@@ -10,7 +10,7 @@ They are all in their original file formats as I want them to be short, simple a
 ## Configurations For
 
 1. Vim (`.vimrc`)
-2. Neovim (`.config/nvim/`)
+2. Neovim (`~/.config/nvim/`)
 3. Bash (`.bashrc`)
 4. Zsh (`.zshrc`)
 5. Tmux (`.tmux.conf`)
