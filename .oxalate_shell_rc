@@ -31,6 +31,7 @@ alias com='git commit -m'
 alias clone='git clone'
 alias lg='git log'
 alias u='git add -u'
+alias clean-gone-git-branches='python3 ~/custom_scripts/clean-gone-branches.py'
 
 # Moar environment variables.
 alias d='docker'
