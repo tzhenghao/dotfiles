@@ -3,7 +3,7 @@
 Script to delete all stale branches marked as [gone] in git branch -v output.
 
 Usage:
-    python clean-gone-branches.py [--dry-run] [--force]
+    python clean-gone-git-branches.py [--dry-run] [--force]
 
 Options:
     --dry-run    Show what would be deleted without actually deleting
@@ -73,9 +73,18 @@ def get_gone_branches() -> List[str]:
     """
     Get list of branch names that are marked as [gone].
 
+    First runs git fetch --prune to update remote tracking information.
+
     Returns:
         List of branch names
     """
+    # First, fetch and prune to update remote tracking information
+    log_info("Fetching latest remote information and pruning stale references...")
+    success, output = run_git_command(['git', 'fetch', '--prune'])
+    if not success:
+        log_warning(f"Failed to fetch and prune: {output}")
+        log_warning("Continuing anyway, but results may not be up to date")
+
     success, output = run_git_command(['git', 'branch', '-v'])
     if not success:
         log_error("Failed to get branch information")
