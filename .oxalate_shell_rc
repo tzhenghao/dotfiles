@@ -31,7 +31,6 @@ alias com='git commit -m'
 alias clone='git clone'
 alias lg='git log'
 alias u='git add -u'
-alias clean-gone-git-branches='python3 ~/custom_scripts/clean-gone-branches.py'
 
 # Moar environment variables.
 alias d='docker'
@@ -124,4 +123,24 @@ extract () {
   else
     echo "'$1' is not a valid file!"
   fi
+}
+
+# Append suffix to all files.
+append-suffix() {
+  python3 "$HOME/custom_scripts/append_suffix_to_all_files.py" "$@"
+}
+
+# Remove suffix from all files.
+remove-suffix() {
+  python3 "$HOME/custom_scripts/remove_suffix_from_all_files.py" "$@"
+}
+
+# Extract CSV data from a file.
+extract-csv() {
+  python3 "$HOME/custom_scripts/extract_csv.py" "$@"
+}
+
+# Clean gone git branches.
+clean-gone-git-branches() {
+  python3 "$HOME/custom_scripts/clean-gone-git-branches.py" "$@"
 }
