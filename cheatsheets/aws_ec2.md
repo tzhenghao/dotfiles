@@ -11,6 +11,7 @@ From [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/managing-users.h
 Default user is `ubuntu`.
 
 ## Add new user
+
 `sudo adduser tzhenghao --disabled-password`
 
 `sudo su - tzhenghao`
@@ -27,8 +28,8 @@ Set a password:
 
 Exit and go back as `ubuntu` user, then run `sudo passwd tzhenghao`
 
-
 ### Granting tzhenghao sudo privileges
+
 `sudo usermod -a -G wheel tzhenghao`
 
 
@@ -38,8 +39,8 @@ From [here](https://docs.docker.com/engine/install/linux-postinstall).
 
 `sudo usermod -aG docker $USER`
 
-
 ### AWS Deep Learning AMI with PyTorch 2.0.1
+
 `source activate pytorch`
 
 ### (Optional): Removing a User
@@ -54,4 +55,5 @@ Make sure AWS security group allows inbound connection from the UDP port ranges
 60000-61000
 
 ## Set Up Git / GitHub
+
 Follow instructions [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
