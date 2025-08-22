@@ -14,8 +14,6 @@ import argparse
 import re
 import subprocess
 import sys
-from typing import List, Tuple
-
 
 class Colors:
     """ANSI color codes for terminal output."""
@@ -41,7 +39,7 @@ def log_error(message: str) -> None:
     print(f"{Colors.RED}[ERROR]{Colors.NC} {message}")
 
 
-def run_git_command(command: List[str]) -> Tuple[bool, str]:
+def run_git_command(command: list[str]) -> tuple[bool, str]:
     """
     Run a git command and return success status and output.
 
@@ -69,7 +67,7 @@ def is_git_repository() -> bool:
     return success
 
 
-def get_gone_branches() -> List[str]:
+def get_gone_branches() -> list[str]:
     """
     Get list of branch names that are marked as [gone].
 
