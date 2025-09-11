@@ -10,6 +10,8 @@ HISTSIZE=10000
 SAVEHIST=1000
 setopt SHARE_HISTORY
 
+bindkey '^U' backward-kill-line
+
 # Get the aliases and functions
 if [ -f ~/.oxalate_shell_rc ]; then
   . ~/.oxalate_shell_rc
