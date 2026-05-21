@@ -58,6 +58,10 @@ export PATH="/usr/local/sbin:$PATH"
 # brew install binutils
 export PATH="/opt/homebrew/opt/binutils/bin:$PATH"
 
+# brew install python3
+alias python3='python3.14'
+alias pip3='pip3.14'
+
 # LLVM
 # llvm is keg-only, which means it was not symlinked into /opt/homebrew,
 # because macOS already provides this software and installing another version in
@@ -143,4 +147,9 @@ extract-csv() {
 # Clean gone git branches.
 clean-gone-git-branches() {
   python3 "$HOME/custom_scripts/clean-gone-git-branches.py" "$@"
+}
+
+# Trim any trailing spaces.
+trimspaces() {
+  sed -i '' 's/[[:space:]]*$//' "$1"
 }
