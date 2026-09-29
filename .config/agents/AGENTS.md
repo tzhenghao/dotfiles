@@ -5,6 +5,7 @@
   - Naming: spell things out (`remainingRetries` not `rr`); include units/state (`timeoutMs`, `isDraft`); booleans as assertions (`hasAccess`); verb-phrase functions named for outcome, not mechanism; short names OK in tiny scopes; never abbreviate domain terms.
   - DRY: refactor into shared functions/methods/interfaces/classes instead of duplicating.
   - Comments: only for *why* — no restating code, no edit narration, no unsolicited TODOs.
+  - Start feature branches with the `tzhenghao/` prefix.
   - Explicit over clever; handle errors meaningfully; immutable by default; small pure functions over shared state; follow the project's linter/formatter; no dead code.
   - Strict typing (e.g. Python: `Mapping`, `TypedDict`, `NamedTuple` over loose dicts).
   - Keep docs and agent skills in sync with the change.
