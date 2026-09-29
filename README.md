@@ -17,6 +17,20 @@ They are all in their original file formats as I want them to be short, simple a
 6. Git (`.gitconfig`)
 7. Alacritty (`~/.config/alacritty/alacritty.toml`)
 8. `.Xmodmap` - swaps Control and Caps Lock keys
+9. Coding agents (`~/.config/agents/AGENTS.md`)
+
+## Coding Agents
+
+Shared agent instructions live in `~/.config/agents/AGENTS.md`. Symlink them into each agent harness's config.
+
+### Pi
+
+[pi](https://github.com/badlogic/pi-mono):
+
+```bash
+mkdir -p ~/.pi/agent
+ln -sf ~/.config/agents/AGENTS.md ~/.pi/agent/AGENTS.md
+```
 
 ## OS Specific Settings
 
