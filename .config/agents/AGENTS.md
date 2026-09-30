@@ -16,3 +16,7 @@
 
 - **Communication (Slack / Linear / PR comments)**
   - Never send or reply directly — draft it as a reply block in-session for me to copy/paste myself.
+
+- **Custom scripts**
+  - `~/custom_scripts/` holds my personal helpers — check it before writing a new script from scratch.
+  - `clean-gone-git-branches.py`: deletes local git branches whose upstream is gone (supports `--dry-run`, `--force`, and `--no-fetch`; keeps unmerged branches unless `--force`).

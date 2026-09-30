@@ -1,50 +1,61 @@
 #!/usr/bin/env python3
-"""
-Script to delete all stale branches marked as [gone] in git branch -v output.
+"""Delete local git branches whose upstream is gone (deleted on the remote).
 
 Usage:
-    python clean-gone-git-branches.py [--dry-run] [--force]
+    clean-gone-git-branches.py [--dry-run] [--force] [--no-fetch]
 
 Options:
-    --dry-run    Show what would be deleted without actually deleting
-    --force      Skip confirmation prompt
+    --dry-run    Show what would be deleted without deleting anything
+    --force      Skip confirmation prompts and force-delete unmerged branches
+    --no-fetch   Skip the `git fetch --prune` refresh of remote-tracking refs
+
+By default only fully merged branches are deleted (git branch -d); branches
+with unmerged commits are kept and listed unless explicitly confirmed or
+forced.
 """
 
+from __future__ import annotations
+
 import argparse
-import re
+import os
+import shutil
 import subprocess
 import sys
 
+
 class Colors:
-    """ANSI color codes for terminal output."""
-    RED = '\033[0;31m'
-    GREEN = '\033[0;32m'
-    YELLOW = '\033[1;33m'
-    BLUE = '\033[0;34m'
-    NC = '\033[0m'  # No Color
+    """ANSI color codes for terminal output; empty strings when disabled."""
+
+    def __init__(self, enabled: bool) -> None:
+        self.RED = '\033[0;31m' if enabled else ''
+        self.GREEN = '\033[0;32m' if enabled else ''
+        self.YELLOW = '\033[1;33m' if enabled else ''
+        self.NC = '\033[0m' if enabled else ''
+
+
+COLORS = Colors(sys.stdout.isatty() and 'NO_COLOR' not in os.environ)
 
 
 def log_info(message: str) -> None:
-    """Log an info message."""
-    print(f"{Colors.GREEN}[INFO]{Colors.NC} {message}")
+    print(f"{COLORS.GREEN}[INFO]{COLORS.NC} {message}")
 
 
 def log_warning(message: str) -> None:
-    """Log a warning message."""
-    print(f"{Colors.YELLOW}[WARNING]{Colors.NC} {message}")
+    print(f"{COLORS.YELLOW}[WARNING]{COLORS.NC} {message}")
 
 
 def log_error(message: str) -> None:
-    """Log an error message."""
-    print(f"{Colors.RED}[ERROR]{Colors.NC} {message}")
+    print(f"{COLORS.RED}[ERROR]{COLORS.NC} {message}")
 
 
 def run_git_command(command: list[str]) -> tuple[bool, str]:
     """
     Run a git command and return success status and output.
 
+    On failure, prefers stderr, which is where git reports its errors.
+
     Args:
-        command: List of command arguments
+        command: Git command as a list of arguments
 
     Returns:
         Tuple of (success, output)
@@ -54,140 +65,206 @@ def run_git_command(command: list[str]) -> tuple[bool, str]:
             command,
             capture_output=True,
             text=True,
-            check=True
+            check=True,
         )
         return True, result.stdout.strip()
     except subprocess.CalledProcessError as e:
-        return False, e.stderr.strip()
+        return False, (e.stderr or e.stdout or '').strip()
 
 
 def is_git_repository() -> bool:
-    """Check if current directory is a git repository."""
+    """Return True if the current directory is inside a git repository."""
     success, _ = run_git_command(['git', 'rev-parse', '--git-dir'])
     return success
 
 
-def get_gone_branches() -> list[str]:
+def get_gone_branches() -> list[str] | None:
     """
-    Get list of branch names that are marked as [gone].
+    Return local branches whose upstream is gone, or None if listing failed.
 
-    First runs git fetch --prune to update remote tracking information.
+    Uses %(upstream:track) rather than scraping `git branch -v` output, so
+    commit subjects or branch names cannot produce a false [gone] match.
 
     Returns:
-        List of branch names
+        List of branch names, or None on git failure
     """
-    # First, fetch and prune to update remote tracking information
-    log_info("Fetching latest remote information and pruning stale references...")
-    success, output = run_git_command(['git', 'fetch', '--prune'])
+    success, output = run_git_command([
+        'git', 'for-each-ref',
+        '--format=%(refname:short)\t%(upstream:track,nobracket)',
+        'refs/heads',
+    ])
     if not success:
-        log_warning(f"Failed to fetch and prune: {output}")
-        log_warning("Continuing anyway, but results may not be up to date")
-
-    success, output = run_git_command(['git', 'branch', '-v'])
-    if not success:
-        log_error("Failed to get branch information")
-        return []
+        log_error(f"Failed to list branches: {output}")
+        return None
 
     gone_branches = []
     for line in output.split('\n'):
-        if '[gone]' in line:
-            # Extract branch name (remove leading spaces and asterisk)
-            branch_match = re.match(r'^[\s*]*([^\s]+)', line)
-            if branch_match:
-                gone_branches.append(branch_match.group(1))
-
+        branch_name, _, track_state = line.partition('\t')
+        if track_state == 'gone':
+            gone_branches.append(branch_name)
     return gone_branches
 
 
-def delete_branch(branch_name: str) -> bool:
+def get_current_branch() -> str:
+    """Return the checked-out branch name, or '' when HEAD is detached."""
+    success, branch_name = run_git_command(['git', 'symbolic-ref', '--short', 'HEAD'])
+    return branch_name if success else ''
+
+
+def delete_branch(branch_name: str, force: bool) -> tuple[bool, str]:
     """
     Delete a git branch.
 
+    With force=False uses -d, so git refuses branches whose commits are
+    not merged into HEAD or any upstream.
+
     Args:
         branch_name: Name of the branch to delete
+        force: Use -D and delete even if unmerged
 
     Returns:
-        True if successful, False otherwise
+        Tuple of (success, output)
     """
-    success, output = run_git_command(['git', 'branch', '-D', branch_name])
-    if not success:
-        log_error(f"Failed to delete branch '{branch_name}': {output}")
-    return success
+    flag = '-D' if force else '-d'
+    return run_git_command(['git', 'branch', flag, branch_name])
+
+
+def confirm(prompt: str) -> bool:
+    """
+    Ask the user to confirm an action.
+
+    A closed or interrupted stdin counts as 'no', so piped or unattended
+    invocations never crash or delete anything without explicit consent.
+
+    Args:
+        prompt: Question to display
+
+    Returns:
+        True only on an explicit yes
+    """
+    try:
+        answer = input(prompt)
+    except (EOFError, KeyboardInterrupt):
+        print()
+        log_warning("No answer available — treating as 'no'. Use --force to skip prompts.")
+        return False
+    return answer.strip().lower() in ('y', 'yes')
 
 
 def main() -> int:
-    """Main function."""
+    """Entry point."""
     parser = argparse.ArgumentParser(
-        description="Delete all stale branches marked as [gone]"
+        description="Delete local git branches whose upstream is gone"
     )
     parser.add_argument(
         '--dry-run',
         action='store_true',
-        help='Show what would be deleted without actually deleting'
+        help='show what would be deleted without deleting anything'
     )
     parser.add_argument(
         '--force',
         action='store_true',
-        help='Skip confirmation prompt'
+        help='skip confirmation prompts and force-delete unmerged branches'
     )
-
+    parser.add_argument(
+        '--no-fetch',
+        action='store_true',
+        help='skip the `git fetch --prune` refresh of remote-tracking refs'
+    )
     args = parser.parse_args()
 
     if args.dry_run:
-        print(f"{Colors.YELLOW}Running in dry-run mode - no branches will be deleted{Colors.NC}")
+        print(f"{COLORS.YELLOW}Running in dry-run mode - no branches will be deleted{COLORS.NC}")
         print()
 
-    # Check if we're in a git repository
+    if shutil.which('git') is None:
+        log_error("git not found on PATH")
+        return 1
+
     if not is_git_repository():
         log_error("Not in a git repository")
         return 1
 
-    # Get gone branches
+    # Refresh remote-tracking refs first, so [gone] reflects the remotes'
+    # current state. --all also prunes non-origin remotes.
+    if not args.no_fetch:
+        log_info("Fetching latest remote information and pruning stale references...")
+        success, output = run_git_command(['git', 'fetch', '--prune', '--all'])
+        if not success:
+            log_warning(f"Failed to fetch and prune: {output}")
+            log_warning("Continuing anyway, but results may not be up to date")
+
     gone_branches = get_gone_branches()
+    if gone_branches is None:
+        return 1
+
+    current_branch = get_current_branch()
+    if current_branch in gone_branches:
+        log_warning(f"Skipping '{current_branch}': it is the current branch (check out another to delete it)")
+        gone_branches.remove(current_branch)
 
     if not gone_branches:
-        log_info("No stale branches found with [gone] status")
+        log_info("No stale branches with a gone upstream")
         return 0
 
-    print("Found the following stale branches marked as [gone]:")
-    for branch in gone_branches:
-        print(f"  - {branch}")
+    print("Found the following branches whose upstream is gone:")
+    for branch_name in gone_branches:
+        print(f"  - {branch_name}")
     print()
 
     if args.dry_run:
-        log_info(f"Dry-run mode: Would delete {len(gone_branches)} branches")
+        log_info(f"Dry-run mode: would delete {len(gone_branches)} branches")
         return 0
 
-    # Confirm deletion unless --force is used
     if not args.force:
-        try:
-            confirmation = input("Do you want to delete these branches? [y/N]: ")
-            if confirmation.lower() not in ['y', 'yes']:
-                log_warning("Operation cancelled")
-                return 0
-        except KeyboardInterrupt:
-            print()
+        if not confirm("Do you want to delete these branches? [y/N]: "):
             log_warning("Operation cancelled")
             return 0
 
-    # Delete branches
-    deleted_count = 0
-    failed_count = 0
+    deleted: list[str] = []
+    unmerged: list[str] = []
+    kept_unmerged: list[str] = []
+    failed: list[str] = []
 
-    for branch in gone_branches:
-        log_info(f"Deleting branch: {branch}")
-        if delete_branch(branch):
-            deleted_count += 1
+    for branch_name in gone_branches:
+        log_info(f"Deleting branch: {branch_name}")
+        success, output = delete_branch(branch_name, args.force)
+        if success:
+            deleted.append(branch_name)
+        elif 'not fully merged' in output:
+            unmerged.append(branch_name)
         else:
-            failed_count += 1
+            log_error(f"Failed to delete branch '{branch_name}': {output}")
+            failed.append(branch_name)
 
-    # Summary
-    if failed_count == 0:
-        log_info(f"Successfully deleted {deleted_count} stale branches")
-    else:
-        log_warning(f"Deleted {deleted_count} branches, failed to delete {failed_count} branches")
+    if unmerged:
+        print()
+        log_warning("Kept branches with commits not merged anywhere reachable:")
+        for branch_name in unmerged:
+            print(f"  - {branch_name}")
+        if confirm("Force delete them anyway? [y/N]: "):
+            for branch_name in unmerged:
+                log_info(f"Force deleting branch: {branch_name}")
+                success, output = delete_branch(branch_name, force=True)
+                if success:
+                    deleted.append(branch_name)
+                else:
+                    log_error(f"Failed to delete branch '{branch_name}': {output}")
+                    failed.append(branch_name)
+        else:
+            kept_unmerged = unmerged
 
-    return 0 if failed_count == 0 else 1
+    if failed:
+        log_warning(
+            f"Deleted {len(deleted)} branches, failed to delete {len(failed)} branches"
+        )
+        return 1
+
+    summary = f"Successfully deleted {len(deleted)} stale branches"
+    if kept_unmerged:
+        summary += f", kept {len(kept_unmerged)} unmerged branches"
+    log_info(summary)
+    return 0
 
 
 if __name__ == '__main__':
