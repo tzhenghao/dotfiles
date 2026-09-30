@@ -32,6 +32,12 @@ mkdir -p ~/.pi/agent
 ln -sf ~/.config/agents/AGENTS.md ~/.pi/agent/AGENTS.md
 ```
 
+### Claude Code
+
+```bash
+ln -sf ~/.config/agents/AGENTS.md ~/.claude/CLAUDE.md
+```
+
 ## OS Specific Settings
 
 ### Ubuntu
