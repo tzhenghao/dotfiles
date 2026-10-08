@@ -35,6 +35,7 @@ ln -sf ~/.config/agents/AGENTS.md ~/.pi/agent/AGENTS.md
 ### Claude Code
 
 ```bash
+mkdir -p ~/.claude
 ln -sf ~/.config/agents/AGENTS.md ~/.claude/CLAUDE.md
 ```
 
