@@ -25,6 +25,15 @@
 - **Communication (Slack / Linear / PR comments)**
   - Never send or reply directly — draft it as a reply block in-session for me to copy/paste myself.
 
+- **Delegation (personal agents)**
+  - Searches spanning more than a couple of files → `scout`; run several in parallel for independent questions.
+  - CI or PR failures → `log-reader` first, then diagnose from its report.
+  - Non-trivial plans → `planner` (it runs `devils-advocate` itself) before showing me. Use `architect` only for cross-component or design-doc work, or when I ask.
+  - Before handing back code → `test-verifier` and `diff-critic` in parallel.
+  - When a repo ships its own agent for the job, prefer it.
+  - When an agent's reply ends with a `Memory candidate:` worth keeping, append it to `~/.config/agents/memory/<agent>.md` and re-run the sync.
+  - Charters live in `~/.config/agents/agents/`. Edit them there and run `python3 ~/.config/agents/sync.py`; never edit the generated files in `~/.claude/agents/` or `~/.codex/agents/`.
+
 - **Custom scripts**
   - `~/custom_scripts/` is a symlink to `custom_scripts/` in my dotfiles repo (`~/personal/dotfiles`) — version control is the source of truth. Check there before writing a new script from scratch, and commit any changes.
   - `clean-gone-git-branches.py`: deletes local git branches whose upstream is gone (supports `--dry-run`, `--force`, and `--no-fetch`; keeps unmerged branches unless `--force`).

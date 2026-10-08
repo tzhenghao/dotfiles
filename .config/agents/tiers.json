@@ -1,0 +1,18 @@
+{
+  "fast": {
+    "claude": {"model": "haiku", "effort": null},
+    "codex": {"model": null, "effort": "low"}
+  },
+  "critic": {
+    "claude": {"model": "sonnet", "effort": "high"},
+    "codex": {"model": null, "effort": "high"}
+  },
+  "deep": {
+    "claude": {"model": "opus", "effort": "high"},
+    "codex": {"model": null, "effort": "high"}
+  },
+  "frontier": {
+    "claude": {"model": "fable", "effort": "max"},
+    "codex": {"model": null, "effort": "xhigh"}
+  }
+}
