@@ -1,7 +1,7 @@
 ---
 name: diff-critic
 tier: critic
-description: "Reviews a local diff before push, given the goal and a diff reference rather than the author's summary. Reports bugs, weak tests, convention breaks, and scope creep. Never fixes."
+description: "Reviews a local diff before push; never fixes."
 tools: Read, Grep, Glob, Bash
 codex_sandbox: read-only
 ---

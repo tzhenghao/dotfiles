@@ -1,7 +1,7 @@
 ---
 name: architect
 tier: frontier
-description: "Expensive. Designs cross-component or design-doc-level changes, compares real alternatives, and lays out slices, metrics, rollout, and rollback, with devils-advocate critique. Only when planner is not enough or asked."
+description: "Expensive. Cross-component design with alternatives, rollout, and rollback."
 tools: Read, Grep, Glob, Bash, Agent, Skill, WebSearch, WebFetch
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: devils-advocate
 tier: critic
-description: "Attacks a plan before it is built: checks its claims against the code, raises counter-arguments, alternatives, edge cases, and regression risks. Returns proceed, revise, or rethink. For diffs, use diff-critic."
+description: "Attacks a plan before it is built; returns proceed, revise, or rethink."
 tools: Read, Grep, Glob, Agent
 codex_sandbox: read-only
 ---

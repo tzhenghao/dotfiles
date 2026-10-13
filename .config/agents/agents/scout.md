@@ -1,7 +1,7 @@
 ---
 name: scout
 tier: fast
-description: "Read-only code locator: where a symbol is defined or used, which file or test covers something, who changed it. Returns path:line hits. Not for review."
+description: "Read-only code locator; returns `path:line` hits."
 tools: Read, Grep, Glob, Bash
 codex_sandbox: read-only
 ---

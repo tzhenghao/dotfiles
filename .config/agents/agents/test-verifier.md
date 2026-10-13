@@ -1,7 +1,7 @@
 ---
 name: test-verifier
 tier: fast
-description: "Runs the real tests for changed files or targets the way the repo documents, and reports exact commands, pass/fail, the first error, and anything not run. Never edits code."
+description: "Runs the repo's real tests and reports exact results."
 tools: Bash, Read, Grep, Glob
 ---
 

@@ -9,12 +9,12 @@
      - Only modify files inside your current worktree.
      - Do not check out, reset, or delete branches you did not create.
      - Do not run `git worktree remove` or `git clean` on paths outside your own worktree.
-     - Use the DB and port from this worktree's `.env` (do not use defaults).
+     - Use this worktree's own config (`.env`, ports, DB), not defaults.
   - Naming: spell things out (`remainingRetries` not `rr`); include units/state (`timeoutMs`, `isDraft`); booleans as assertions (`hasAccess`); verb-phrase functions named for outcome, not mechanism; short names OK in tiny scopes; never abbreviate domain terms.
   - DRY: refactor into shared functions/methods/interfaces/classes instead of duplicating.
   - Comments: only for *why* — no restating code, no edit narration, no unsolicited TODOs.
     - Describe present-tense behavior; never frame code as "legacy", "old", or "mirrors X". Migration context belongs in the PR description.
-    - Build, packaging, and CI config files (`BUILD.bazel`, Dockerfiles, workflow yaml, declarative catalogs) get no comments on why a value was chosen or who consumes it. Rationale goes in the commit message.
+    - Build, packaging, and CI config files (Dockerfiles, workflow yaml, build targets) get no comments on why a value was chosen or who consumes it. Rationale goes in the commit message.
     - Docstrings on small helpers/components: one short sentence on what it is and does. Skip "centralizes…" / "avoids duplication…".
   - No re-export shims or needless indirection: repoint consumers to the canonical module. Verify with a typecheck, since multi-line imports hide usage from grep.
   - Work in a scratch worktree is volatile: commit it to its branch once green, since a branch survives `git worktree remove` and an uncommitted tree does not. A local commit is fine without asking; pushing still waits for me.
@@ -26,8 +26,8 @@
 
 - **Pull Requests**
   - Short, plain-language description: problem → solution → tests. No line-by-line itemization of source changes.
-  - Default to splitting multi-step work into stacked PRs, one concern each (NFC carve, source of truth, each consumer, frontend, UI). When unsure, split. State the stack plan up front and confirm it before committing to it.
-  - Prove no-behavior-change frontend refactors with a real-browser A/B of DOM signatures against a `main` worktree, not just green jsdom tests. Self-diff two runs on identical code before trusting the A/B.
+  - Default to splitting multi-step work into stacked PRs, one concern each (no-behavior-change carve, source of truth, each consumer, UI). When unsure, split. State the stack plan up front and confirm it before committing to it.
+  - Prove no-behavior-change UI refactors with a real-browser A/B of DOM signatures against a `main` worktree, not just unit tests. Self-diff two runs on identical code before trusting the A/B.
 
 - **Communication (Slack / Linear / PR comments)**
   - Never send or reply directly — draft it as a reply block in-session for me to copy/paste myself.
