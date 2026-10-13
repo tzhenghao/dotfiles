@@ -1,7 +1,7 @@
 ---
 name: scout
 tier: fast
-description: "Read-only code locator; returns `path:line` hits."
+description: "Read-only code locator; returns `path:line` hits. Not for review."
 tools: Read, Grep, Glob, Bash
 codex_sandbox: read-only
 ---

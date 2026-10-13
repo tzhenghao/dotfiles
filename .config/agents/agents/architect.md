@@ -1,7 +1,7 @@
 ---
 name: architect
 tier: frontier
-description: "Expensive. Cross-component design with alternatives, rollout, and rollback."
+description: "Expensive; only when planner is not enough. Cross-component design with alternatives, rollout, and rollback."
 tools: Read, Grep, Glob, Bash, Agent, Skill, WebSearch, WebFetch
 ---
 

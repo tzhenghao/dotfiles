@@ -21,7 +21,8 @@ One set of agent charters, generated for Claude Code and Codex.
   Codex model inherits the calling session's model.
 - `preamble.md`: rules appended to every agent. `codex-preamble.md` is
   appended for Codex only.
-- `memory/<name>.md` (created on first use): what each agent has learned. The sync inlines it into
+- `memory/<name>.md` (created on first use): what each agent has
+  learned. The sync inlines it into
   the generated prompt, so add lessons here (from an agent's
   `Memory candidate:` line) and re-run the sync.
 - `sync.py`: writes `~/.claude/agents/<name>.md` and
