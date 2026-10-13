@@ -163,7 +163,7 @@ def test_real_charters_render(tmp_path: Path) -> None:
     names = {path.stem for path in outputs}
     assert names == {
         "scout", "log-reader", "devils-advocate", "diff-critic",
-        "test-verifier", "planner", "architect",
+        "test-verifier", "planner", "architect", "loc-splitter",
     }
     for path, content in outputs.items():
         if path.suffix == ".toml":

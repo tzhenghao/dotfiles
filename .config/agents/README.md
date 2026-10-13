@@ -9,6 +9,7 @@ One set of agent charters, generated for Claude Code and Codex.
 | `devils-advocate` | critic | Attacks a plan before it is built |
 | `diff-critic` | critic | Reviews a local diff before push |
 | `test-verifier` | fast | Runs the real tests and reports exactly what happened |
+| `loc-splitter` | fast | Splits a branch's LOC change into implementation vs test |
 | `planner` | deep | Writes the implementation plan, critiqued by `devils-advocate` |
 | `architect` | frontier | Cross-component designs; most expensive, use sparingly |
 

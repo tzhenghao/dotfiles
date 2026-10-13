@@ -26,6 +26,7 @@
 
 - **Pull Requests**
   - Short, plain-language description: problem → solution → tests. No line-by-line itemization of source changes.
+  - Every time a branch or PR is opened, run `loc-splitter` and put its implementation vs test LOC table in the PR description. For a stack, report it per PR.
   - Default to splitting multi-step work into stacked PRs, one concern each (no-behavior-change carve, source of truth, each consumer, UI). When unsure, split. State the stack plan up front and confirm it before committing to it.
   - Prove no-behavior-change UI refactors with a real-browser A/B of DOM signatures against a `main` worktree, not just unit tests. Self-diff two runs on identical code before trusting the A/B.
 
@@ -38,6 +39,7 @@
   - CI or PR failures → `log-reader` first, then diagnose from its report.
   - Non-trivial plans → `planner` (it runs `devils-advocate` itself) before showing me. Use `architect` only for cross-component or design-doc work, or when I ask.
   - Before handing back code → `test-verifier` and `diff-critic` in parallel.
+  - Opening a new branch or PR → `loc-splitter` for the implementation vs test LOC split; it is cheap, so run it every time.
   - Run these unprompted at every stage they apply, build them into the plan rather than appending them at the end, and fix confirmed findings before pushing. Any red CI check goes to `log-reader` first, even when another agent is handling it. For a PR stack, also run one `diff-critic` over the whole stack from main. Say which agents ran and which did not, with the reason.
   - When a repo ships its own agent for the job, prefer it.
   - When an agent's reply ends with a `Memory candidate:` worth keeping, append it to `~/.config/agents/memory/<agent>.md` and re-run the sync.
