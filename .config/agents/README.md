@@ -1,6 +1,6 @@
 # Personal agents
 
-One set of agent charters, generated for Claude Code and Codex.
+One set of agent charters, generated for Claude Code, Codex, and pi.
 
 | Agent | Tier | Role |
 |---|---|---|
@@ -21,12 +21,12 @@ One set of agent charters, generated for Claude Code and Codex.
 - `tiers.json`: the model and effort for each tier in each harness. A `null`
   Codex model inherits the calling session's model.
 - `preamble.md`: rules appended to every agent. `codex-preamble.md` is
-  appended for Codex only.
+  appended for Codex only, `pi-preamble.md` for pi only.
 - `memory/<name>.md` (created on first use): what each agent has
   learned. The sync inlines it into the generated prompt, so add lessons
   here (from an agent's `Memory candidate:` line) and re-run the sync.
-- `sync.py`: writes `~/.claude/agents/<name>.md` and
-  `~/.codex/agents/<name>.toml`.
+- `sync.py`: writes `~/.claude/agents/<name>.md`,
+  `~/.codex/agents/<name>.toml`, and `~/.pi/agent/agents/<name>.md`.
 
 ## Update the agents
 
@@ -40,7 +40,25 @@ One set of agent charters, generated for Claude Code and Codex.
    `--check` reports drift without writing. The sync only replaces or removes
    files carrying its generated marker, and refuses to overwrite anything else.
 
-3. Start a new Claude Code or Codex session to load the changes.
+3. Start a new Claude Code, Codex, or pi session to load the changes.
+
+## Pi subagents
+
+pi has no built-in subagent tool. Its shipped example extension reads the
+agents sync.py generates from `~/.pi/agent/agents/` and runs each one in its
+own `pi` process, inheriting the dispatching session's model. One-time
+setup:
+
+```bash
+mkdir -p ~/.pi/agent/extensions
+ln -s "$(npm root -g)/@earendil-works/pi-coding-agent/examples/extensions/subagent" \
+  ~/.pi/agent/extensions/subagent
+```
+
+The tool is named `subagent`, the pi name for Claude Code's `Agent`. A
+checkout that ships its own `subagent` tool (like modular) registers it
+first, and pi keeps the first tool registered per name, so the personal
+agents do not run there.
 
 ## Test the sync script
 

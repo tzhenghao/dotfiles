@@ -32,6 +32,16 @@ mkdir -p ~/.pi/agent
 ln -sf ~/.config/agents/AGENTS.md ~/.pi/agent/AGENTS.md
 ```
 
+Subagents use pi's shipped example extension plus the agents `sync.py`
+generates:
+
+```bash
+mkdir -p ~/.pi/agent/extensions
+ln -s "$(npm root -g)/@earendil-works/pi-coding-agent/examples/extensions/subagent" \
+  ~/.pi/agent/extensions/subagent
+python3 ~/.config/agents/sync.py
+```
+
 ### Claude Code
 
 ```bash

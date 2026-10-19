@@ -37,10 +37,12 @@ class Layout:
         self.source_dir = root / "source"
         self.claude_dir = root / "claude"
         self.codex_dir = root / "codex"
+        self.pi_dir = root / "pi"
         (self.source_dir / "agents").mkdir(parents=True)
         (self.source_dir / "tiers.json").write_text(TIERS_JSON)
         (self.source_dir / "preamble.md").write_text("Shared rules.\n")
         (self.source_dir / "codex-preamble.md").write_text("Codex notes.\n")
+        (self.source_dir / "pi-preamble.md").write_text("Pi notes.\n")
         self.add_charter("finder", FAST_CHARTER)
         self.add_charter("thinker", DEEP_CHARTER)
 
@@ -53,6 +55,7 @@ class Layout:
                 "--source-dir", str(self.source_dir),
                 "--claude-dir", str(self.claude_dir),
                 "--codex-dir", str(self.codex_dir),
+                "--pi-dir", str(self.pi_dir),
                 *extra_args,
             ]
         )
@@ -93,7 +96,17 @@ def test_codex_output_is_valid_toml_with_tier_settings(layout: Layout) -> None:
     assert 'backslash \\d and a triple quote """ inside.' in thinker["developer_instructions"]
 
 
-def test_memory_is_inlined_into_both_harnesses(layout: Layout) -> None:
+def test_pi_output_translates_tools_and_inherits_model(layout: Layout) -> None:
+    assert layout.run() == 0
+    finder = (layout.pi_dir / "finder.md").read_text()
+    assert "tools: read, grep\n" in finder
+    assert "model:" not in finder
+    assert "Pi notes." in finder
+    thinker = (layout.pi_dir / "thinker.md").read_text()
+    assert "tools: read, subagent\n" in thinker
+
+
+def test_memory_is_inlined_into_all_harnesses(layout: Layout) -> None:
     (layout.source_dir / "memory").mkdir()
     (layout.source_dir / "memory" / "finder.md").write_text("2026-10-08: prefer rg -n.\n")
     assert layout.run() == 0
@@ -101,6 +114,7 @@ def test_memory_is_inlined_into_both_harnesses(layout: Layout) -> None:
     assert (layout.claude_dir / "finder.md").read_text().endswith(expected)
     codex = tomli.loads((layout.codex_dir / "finder.toml").read_text())
     assert codex["developer_instructions"].endswith(expected)
+    assert (layout.pi_dir / "finder.md").read_text().endswith(expected)
     assert "## Memory" not in (layout.claude_dir / "thinker.md").read_text()
 
 
@@ -131,6 +145,7 @@ def test_removes_stale_generated_files_and_keeps_hand_written_ones(layout: Layou
     assert layout.run() == 0
     assert not (layout.claude_dir / "thinker.md").exists()
     assert not (layout.codex_dir / "thinker.toml").exists()
+    assert not (layout.pi_dir / "thinker.md").exists()
     assert hand_written.exists()
 
 
@@ -142,6 +157,14 @@ def test_refuses_to_overwrite_hand_written_file(layout: Layout) -> None:
     assert hand_written.read_text() == "my own finder\n"
 
 
+def test_refuses_to_overwrite_hand_written_pi_file(layout: Layout) -> None:
+    layout.pi_dir.mkdir()
+    hand_written = layout.pi_dir / "finder.md"
+    hand_written.write_text("my own pi finder\n")
+    assert layout.run() == 2
+    assert hand_written.read_text() == "my own pi finder\n"
+
+
 @pytest.mark.parametrize(
     "charter_text",
     [
@@ -150,6 +173,7 @@ def test_refuses_to_overwrite_hand_written_file(layout: Layout) -> None:
         FAST_CHARTER.replace("tools: Read, Grep", "tools: Read, Teleport"),
         FAST_CHARTER.replace("codex_sandbox: read-only", "codex_sandbox: anything"),
         FAST_CHARTER.replace("tools: Read, Grep\n", ""),
+        FAST_CHARTER.replace("tools: Read, Grep", "tools: WebSearch, WebFetch"),
     ],
 )
 def test_rejects_invalid_charter(layout: Layout, charter_text: str) -> None:
@@ -159,7 +183,9 @@ def test_rejects_invalid_charter(layout: Layout, charter_text: str) -> None:
 
 
 def test_real_charters_render(tmp_path: Path) -> None:
-    outputs = sync.desired_outputs(sync.SOURCE_DIR, tmp_path / "claude", tmp_path / "codex")
+    outputs = sync.desired_outputs(
+        sync.SOURCE_DIR, tmp_path / "claude", tmp_path / "codex", tmp_path / "pi"
+    )
     names = {path.stem for path in outputs}
     assert names == {
         "scout", "log-reader", "devils-advocate", "diff-critic",
@@ -168,3 +194,4 @@ def test_real_charters_render(tmp_path: Path) -> None:
     for path, content in outputs.items():
         if path.suffix == ".toml":
             assert tomli.loads(content)["name"] == path.stem
+    assert "tools: read, grep, find, bash\n" in outputs[tmp_path / "pi" / "scout.md"]
