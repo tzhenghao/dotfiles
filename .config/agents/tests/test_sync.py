@@ -208,7 +208,8 @@ def test_real_charters_render(tmp_path: Path) -> None:
     outputs = sync.desired_outputs(
         sync.SOURCE_DIR, tmp_path / "claude", tmp_path / "codex", tmp_path / "pi", [tmp_path / "skills"]
     )
-    names = {path.stem for path in outputs}
+    skills_dir = tmp_path / "skills"
+    names = {path.stem for path in outputs if skills_dir not in path.parents}
     assert names == {
         "scout", "log-reader", "devils-advocate", "diff-critic",
         "test-verifier", "planner", "architect", "loc-splitter",
@@ -217,6 +218,7 @@ def test_real_charters_render(tmp_path: Path) -> None:
         if path.suffix == ".toml":
             assert tomli.loads(content)["name"] == path.stem
     assert "tools: read, grep, find, bash\n" in outputs[tmp_path / "pi" / "scout.md"]
+    assert "$ARGUMENTS" not in outputs[skills_dir / "audit-tests" / "SKILL.md"]
 
 
 def test_skill_is_copied_to_every_skills_dir_with_marker(layout: Layout) -> None:
