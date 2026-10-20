@@ -359,3 +359,37 @@ def test_removes_skill_file_last(layout: Layout) -> None:
     removed = [change.path.name for change in changes if change.action == "remove"]
     assert removed[-1] == "SKILL.md"
     assert sorted(removed[:-1]) == ["a.md", "notes.md"]
+
+
+def test_writes_skill_file_before_other_skill_files(layout: Layout) -> None:
+    layout.add_skill("auditor", SKILL, **{"A.md": "A.\n", "references/notes.md": "Notes.\n"})
+    outputs = sync.desired_outputs(
+        layout.source_dir, layout.claude_dir, layout.codex_dir, layout.pi_dir, layout.skills_dirs[:1]
+    )
+    changes = sync.plan_changes(
+        outputs, layout.claude_dir, layout.codex_dir, layout.pi_dir, layout.skills_dirs[:1]
+    )
+    skill_writes = [
+        change.path.name for change in changes if layout.skills_dirs[0] in change.path.parents
+    ]
+    assert skill_writes[0] == "SKILL.md"
+    assert sorted(skill_writes[1:]) == ["A.md", "notes.md"]
+
+
+def test_ignores_undecodable_skill_file_in_foreign_skill_folder(layout: Layout) -> None:
+    layout.add_skill("auditor", SKILL)
+    foreign = layout.skills_dirs[1] / "foreign" / "SKILL.md"
+    foreign.parent.mkdir(parents=True)
+    foreign.write_bytes(b"\xff\xfe")
+    assert layout.run() == 0
+    assert foreign.read_bytes() == b"\xff\xfe"
+
+
+def test_refuses_undecodable_skill_file_in_same_named_folder(layout: Layout) -> None:
+    layout.add_skill("auditor", SKILL)
+    foreign = layout.skills_dirs[1] / "auditor" / "SKILL.md"
+    foreign.parent.mkdir(parents=True)
+    foreign.write_bytes(b"\xff\xfe")
+    assert layout.run("--check") == 2
+    assert layout.run() == 2
+    assert foreign.read_bytes() == b"\xff\xfe"
