@@ -224,7 +224,9 @@ def test_skill_is_copied_to_every_skills_dir_with_marker(layout: Layout) -> None
     assert layout.run() == 0
     for skills_dir in layout.skills_dirs:
         skill_file = (skills_dir / "auditor" / "SKILL.md").read_text()
-        assert skill_file.startswith(f"---\n# {sync.GENERATED_MARKER}\nname: auditor\n")
+        frontmatter, _, body = skill_file[len("---\n"):].partition("\n---\n")
+        assert frontmatter == SKILL.split("---\n")[1].rstrip("\n")
+        assert body.startswith(f"<!-- {sync.SKILL_GENERATED_MARKER} -->\n")
         assert skill_file.endswith("Audit the target.\n")
         assert (skills_dir / "auditor" / "references" / "notes.md").read_text() == "Notes.\n"
 
@@ -300,3 +302,60 @@ def test_rejects_invalid_skill(layout: Layout, skill_text: str) -> None:
 def test_rejects_skill_folder_without_skill_file(layout: Layout) -> None:
     (layout.source_dir / "skills" / "empty").mkdir(parents=True)
     assert layout.run() == 2
+
+
+def test_leaves_unmarked_skill_directories_alone(layout: Layout) -> None:
+    system_skill = layout.skills_dirs[1] / ".system" / "SKILL.md"
+    system_skill.parent.mkdir(parents=True)
+    system_skill.write_text("---\nname: system\ndescription: Built in.\n---\n")
+    layout.add_skill("auditor", SKILL)
+    assert layout.run() == 0
+    assert system_skill.read_text() == "---\nname: system\ndescription: Built in.\n---\n"
+
+
+def test_refuses_skill_folder_that_has_no_skill_file(layout: Layout) -> None:
+    layout.add_skill("auditor", SKILL)
+    hand_written = layout.skills_dirs[1] / "auditor" / "scripts" / "run.sh"
+    hand_written.parent.mkdir(parents=True)
+    hand_written.write_text("echo mine\n")
+    assert layout.run() == 2
+    assert hand_written.read_text() == "echo mine\n"
+    assert not (hand_written.parents[1] / "SKILL.md").exists()
+
+
+def test_rejects_non_text_skill_file(layout: Layout) -> None:
+    layout.add_skill("auditor", SKILL)
+    (layout.source_dir / "skills" / "auditor" / "logo.png").write_bytes(b"\x89PNG\xff\xfe")
+    assert layout.run() == 2
+    assert not layout.skills_dirs[0].exists()
+
+
+def test_ignores_finder_metadata_in_skill_source(layout: Layout) -> None:
+    layout.add_skill("auditor", SKILL)
+    (layout.source_dir / "skills" / "auditor" / ".DS_Store").write_bytes(b"\x00\xff")
+    assert layout.run() == 0
+    assert not (layout.skills_dirs[0] / "auditor" / ".DS_Store").exists()
+
+
+def test_check_reports_stale_skill_removal_without_writing(layout: Layout) -> None:
+    layout.add_skill("auditor", SKILL)
+    assert layout.run() == 0
+    (layout.source_dir / "skills" / "auditor" / "SKILL.md").unlink()
+    (layout.source_dir / "skills" / "auditor").rmdir()
+    assert layout.run("--check") == 1
+    assert (layout.skills_dirs[0] / "auditor" / "SKILL.md").exists()
+
+
+def test_removes_skill_file_last(layout: Layout) -> None:
+    layout.add_skill("auditor", SKILL, **{"references/notes.md": "Notes.\n", "a.md": "A.\n"})
+    assert layout.run() == 0
+    outputs = sync.desired_outputs(
+        layout.source_dir, layout.claude_dir, layout.codex_dir, layout.pi_dir, layout.skills_dirs[:1]
+    )
+    kept = {path: text for path, text in outputs.items() if layout.skills_dirs[0] not in path.parents}
+    changes = sync.plan_changes(
+        kept, layout.claude_dir, layout.codex_dir, layout.pi_dir, layout.skills_dirs[:1]
+    )
+    removed = [change.path.name for change in changes if change.action == "remove"]
+    assert removed[-1] == "SKILL.md"
+    assert sorted(removed[:-1]) == ["a.md", "notes.md"]

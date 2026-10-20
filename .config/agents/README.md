@@ -26,10 +26,11 @@ One set of agent charters and skills, generated for Claude Code, Codex, and pi.
   learned. The sync inlines it into the generated prompt, so add lessons
   here (from an agent's `Memory candidate:` line) and re-run the sync.
 - `skills/<name>/SKILL.md`: the skills, the only place to edit one. The
-  folder name must match the `name` frontmatter field, and any other files in
-  the folder (such as `references/`) are copied along. Write them to run in
-  every harness: `$ARGUMENTS` is a Claude Code substitution, so refer to the
-  user's target in words instead.
+  folder name must match the `name` frontmatter field. Other UTF-8 text files
+  in the folder (such as `references/`) are copied along; binary files are
+  rejected and file modes are not preserved. Write skills to run in every
+  harness: `$ARGUMENTS` is a Claude Code substitution, so refer to the user's
+  target in words instead.
 - `sync.py`: writes `~/.claude/agents/<name>.md`,
   `~/.codex/agents/<name>.toml`, and `~/.pi/agent/agents/<name>.md`, and
   copies each skill to `~/.claude/skills/<name>/`, `~/.codex/skills/<name>/`,
@@ -45,8 +46,10 @@ One set of agent charters and skills, generated for Claude Code, Codex, and pi.
    ```
 
    `--check` reports drift without writing. The sync only replaces or removes
-   files carrying its generated marker (for a skill, the marker in its
-   `SKILL.md` covers the whole folder), and refuses to overwrite anything else.
+   files carrying its generated marker, and refuses to overwrite anything
+   else. A skill folder is owned as a whole through the marker in its
+   `SKILL.md`, so files added by hand inside a generated skill folder are
+   removed, and a folder with no `SKILL.md` marker is refused.
 
 3. Start a new Claude Code, Codex, or pi session to load the changes.
 
