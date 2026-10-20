@@ -6,8 +6,9 @@ argument-hint: "<path | package | tool> [--report-only]"
 
 # Audit tests
 
-Scope: the path, package or tool the user named, and whether they passed
-`--report-only`. If no target was named, ask for one before starting.
+Scope: the path, package or tool the user named, and whether they asked for
+report-only (for example with `--report-only`). If no target was named, ask
+for one before starting.
 
 **Rule:** remove a test only after showing a named surviving test fails for
 the same defect. Never weaken assertions or tolerances, or edit code under
