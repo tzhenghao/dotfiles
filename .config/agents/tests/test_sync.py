@@ -32,12 +32,25 @@ Body with a backslash \\d and a triple quote """ inside.
 '''
 
 
+SKILL = """---
+name: auditor
+description: "Audits things."
+argument-hint: "<path>"
+---
+
+# Auditor
+
+Audit the target.
+"""
+
+
 class Layout:
     def __init__(self, root: Path) -> None:
         self.source_dir = root / "source"
         self.claude_dir = root / "claude"
         self.codex_dir = root / "codex"
         self.pi_dir = root / "pi"
+        self.skills_dirs = [root / "claude-skills", root / "codex-skills", root / "pi-skills"]
         (self.source_dir / "agents").mkdir(parents=True)
         (self.source_dir / "tiers.json").write_text(TIERS_JSON)
         (self.source_dir / "preamble.md").write_text("Shared rules.\n")
@@ -49,6 +62,14 @@ class Layout:
     def add_charter(self, name: str, text: str) -> None:
         (self.source_dir / "agents" / f"{name}.md").write_text(text)
 
+    def add_skill(self, name: str, text: str, **extra_files: str) -> None:
+        skill_dir = self.source_dir / "skills" / name
+        skill_dir.mkdir(parents=True, exist_ok=True)
+        (skill_dir / "SKILL.md").write_text(text)
+        for relative_path, content in extra_files.items():
+            (skill_dir / relative_path).parent.mkdir(parents=True, exist_ok=True)
+            (skill_dir / relative_path).write_text(content)
+
     def run(self, *extra_args: str) -> int:
         return sync.main(
             [
@@ -56,6 +77,7 @@ class Layout:
                 "--claude-dir", str(self.claude_dir),
                 "--codex-dir", str(self.codex_dir),
                 "--pi-dir", str(self.pi_dir),
+                *[arg for skills_dir in self.skills_dirs for arg in ("--skills-dir", str(skills_dir))],
                 *extra_args,
             ]
         )
@@ -184,7 +206,7 @@ def test_rejects_invalid_charter(layout: Layout, charter_text: str) -> None:
 
 def test_real_charters_render(tmp_path: Path) -> None:
     outputs = sync.desired_outputs(
-        sync.SOURCE_DIR, tmp_path / "claude", tmp_path / "codex", tmp_path / "pi"
+        sync.SOURCE_DIR, tmp_path / "claude", tmp_path / "codex", tmp_path / "pi", [tmp_path / "skills"]
     )
     names = {path.stem for path in outputs}
     assert names == {
@@ -195,3 +217,86 @@ def test_real_charters_render(tmp_path: Path) -> None:
         if path.suffix == ".toml":
             assert tomli.loads(content)["name"] == path.stem
     assert "tools: read, grep, find, bash\n" in outputs[tmp_path / "pi" / "scout.md"]
+
+
+def test_skill_is_copied_to_every_skills_dir_with_marker(layout: Layout) -> None:
+    layout.add_skill("auditor", SKILL, **{"references/notes.md": "Notes.\n"})
+    assert layout.run() == 0
+    for skills_dir in layout.skills_dirs:
+        skill_file = (skills_dir / "auditor" / "SKILL.md").read_text()
+        assert skill_file.startswith(f"---\n# {sync.GENERATED_MARKER}\nname: auditor\n")
+        assert skill_file.endswith("Audit the target.\n")
+        assert (skills_dir / "auditor" / "references" / "notes.md").read_text() == "Notes.\n"
+
+
+def test_second_sync_with_skills_changes_nothing(
+    layout: Layout, capsys: pytest.CaptureFixture[str]
+) -> None:
+    layout.add_skill("auditor", SKILL, **{"references/notes.md": "Notes.\n"})
+    assert layout.run() == 0
+    capsys.readouterr()
+    assert layout.run() == 0
+    assert capsys.readouterr().out == "up to date\n"
+    assert layout.run("--check") == 0
+
+
+def test_check_reports_hand_edited_skill_without_writing(layout: Layout) -> None:
+    layout.add_skill("auditor", SKILL)
+    assert layout.run() == 0
+    edited = layout.skills_dirs[0] / "auditor" / "SKILL.md"
+    edited.write_text(edited.read_text() + "hand edit\n")
+    assert layout.run("--check") == 1
+    assert edited.read_text().endswith("hand edit\n")
+    assert layout.run() == 0
+    assert not edited.read_text().endswith("hand edit\n")
+
+
+def test_removes_stale_generated_skill_files_and_keeps_hand_written_skills(layout: Layout) -> None:
+    layout.add_skill("auditor", SKILL, **{"references/notes.md": "Notes.\n"})
+    layout.add_skill("gone", SKILL.replace("auditor", "gone"))
+    assert layout.run() == 0
+    hand_written = layout.skills_dirs[0] / "mine" / "SKILL.md"
+    hand_written.parent.mkdir()
+    hand_written.write_text("---\nname: mine\ndescription: Mine.\n---\nmy own skill\n")
+    (layout.source_dir / "skills" / "auditor" / "references" / "notes.md").unlink()
+    (layout.source_dir / "skills" / "auditor" / "references").rmdir()
+    (layout.source_dir / "skills" / "gone" / "SKILL.md").unlink()
+    (layout.source_dir / "skills" / "gone").rmdir()
+
+    assert layout.run() == 0
+    for skills_dir in layout.skills_dirs:
+        assert (skills_dir / "auditor" / "SKILL.md").exists()
+        assert not (skills_dir / "auditor" / "references").exists()
+        assert not (skills_dir / "gone").exists()
+        assert skills_dir.is_dir()
+    assert hand_written.exists()
+
+
+def test_refuses_to_overwrite_hand_written_skill(layout: Layout) -> None:
+    layout.add_skill("auditor", SKILL, **{"references/notes.md": "Notes.\n"})
+    hand_written = layout.skills_dirs[1] / "auditor" / "SKILL.md"
+    hand_written.parent.mkdir(parents=True)
+    hand_written.write_text("my own skill\n")
+    assert layout.run() == 2
+    assert hand_written.read_text() == "my own skill\n"
+    assert not (hand_written.parent / "references").exists()
+
+
+@pytest.mark.parametrize(
+    "skill_text",
+    [
+        SKILL.replace("name: auditor", "name: other"),
+        SKILL.replace('description: "Audits things."\n', ""),
+        SKILL.replace("---\n", "", 1),
+        SKILL.replace("\n---\n", "\n", 1),
+    ],
+)
+def test_rejects_invalid_skill(layout: Layout, skill_text: str) -> None:
+    layout.add_skill("auditor", skill_text)
+    assert layout.run() == 2
+    assert not layout.skills_dirs[0].exists()
+
+
+def test_rejects_skill_folder_without_skill_file(layout: Layout) -> None:
+    (layout.source_dir / "skills" / "empty").mkdir(parents=True)
+    assert layout.run() == 2

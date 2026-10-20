@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""Generates Claude Code, Codex, and pi agent files from the shared charters.
+"""Generates Claude Code, Codex, and pi agent and skill files from shared sources.
 
 Charters in ``agents/`` name a tier, and ``tiers.json`` maps each tier to a
 model per harness, so switching providers means editing one file. Each
 agent's ``memory/<name>.md`` is inlined at sync time so agents spend no tool
-call reading it. Every generated file carries ``GENERATED_MARKER``; the sync
-only replaces or removes files that carry it, so hand-written agents in the
-same directories are safe.
+call reading it. Each ``skills/<name>/`` folder is copied as is into every
+harness's skills directory. Every generated file carries ``GENERATED_MARKER``
+(a skill's ``SKILL.md`` carries it on behalf of its folder); the sync only
+replaces or removes files that carry it, so hand-written agents and skills in
+the same directories are safe.
 """
 
 from __future__ import annotations
@@ -23,6 +25,13 @@ SOURCE_DIR = Path(__file__).resolve().parent
 DEFAULT_CLAUDE_DIR = Path.home() / ".claude" / "agents"
 DEFAULT_CODEX_DIR = Path.home() / ".codex" / "agents"
 DEFAULT_PI_DIR = Path.home() / ".pi" / "agent" / "agents"
+DEFAULT_SKILLS_DIRS = (
+    Path.home() / ".claude" / "skills",
+    Path.home() / ".codex" / "skills",
+    Path.home() / ".pi" / "agent" / "skills",
+)
+SKILL_FILE_NAME = "SKILL.md"
+REQUIRED_SKILL_FIELDS = ("name", "description")
 
 KNOWN_TOOLS = frozenset(
     {"Read", "Grep", "Glob", "Bash", "Edit", "Write", "Agent", "Skill", "WebSearch", "WebFetch"}
@@ -246,8 +255,54 @@ def render_pi(source: AgentSource, preambles: Preambles) -> str:
     return "\n".join(lines) + _instructions(source, preamble)
 
 
+def render_skill_file(text: str, skill_dir: Path) -> str:
+    """Validates a skill's ``SKILL.md`` frontmatter and stamps the generated marker into it."""
+    if not text.startswith("---\n"):
+        raise ConfigError(f"{skill_dir}: {SKILL_FILE_NAME} is missing frontmatter")
+    frontmatter_end = text.find("\n---\n", 4)
+    if frontmatter_end == -1:
+        raise ConfigError(f"{skill_dir}: {SKILL_FILE_NAME} has unterminated frontmatter")
+
+    fields = {
+        key: value.strip()
+        for key, separator, value in (
+            line.partition(":")
+            for line in text[4:frontmatter_end].splitlines()
+            if not line.startswith((" ", "#"))
+        )
+        if separator
+    }
+    missing = [field for field in REQUIRED_SKILL_FIELDS if not fields.get(field)]
+    if missing:
+        raise ConfigError(f"{skill_dir}: {SKILL_FILE_NAME} is missing frontmatter fields {missing}")
+    if fields["name"].strip("\"'") != skill_dir.name:
+        raise ConfigError(f"{skill_dir}: name '{fields['name']}' must match the folder name")
+    return text.replace("---\n", f"---\n# {GENERATED_MARKER}\n", 1)
+
+
+def load_skills(source_dir: Path) -> dict[str, dict[Path, str]]:
+    """Maps each skill name to its files (relative path to text), with ``SKILL.md`` stamped."""
+    skills: dict[str, dict[Path, str]] = {}
+    for skill_dir in sorted(path for path in (source_dir / "skills").glob("*") if path.is_dir()):
+        skill_file = skill_dir / SKILL_FILE_NAME
+        if not skill_file.is_file():
+            raise ConfigError(f"{skill_dir}: missing {SKILL_FILE_NAME}")
+        files = {
+            path.relative_to(skill_dir): path.read_text()
+            for path in sorted(skill_dir.rglob("*"))
+            if path.is_file()
+        }
+        files[Path(SKILL_FILE_NAME)] = render_skill_file(files[Path(SKILL_FILE_NAME)], skill_dir)
+        skills[skill_dir.name] = files
+    return skills
+
+
 def desired_outputs(
-    source_dir: Path, claude_dir: Path, codex_dir: Path, pi_dir: Path
+    source_dir: Path,
+    claude_dir: Path,
+    codex_dir: Path,
+    pi_dir: Path,
+    skills_dirs: Sequence[Path],
 ) -> dict[Path, str]:
     tiers = parse_tiers((source_dir / "tiers.json").read_text())
     preambles = Preambles(
@@ -264,21 +319,37 @@ def desired_outputs(
         outputs[claude_dir / f"{charter.name}.md"] = render_claude(source, tier, preambles)
         outputs[codex_dir / f"{charter.name}.toml"] = render_codex(source, tier, preambles)
         outputs[pi_dir / f"{charter.name}.md"] = render_pi(source, preambles)
+    for skill_name, files in load_skills(source_dir).items():
+        for skills_dir in skills_dirs:
+            for relative_path, text in files.items():
+                outputs[skills_dir / skill_name / relative_path] = text
     return outputs
 
 
 def _is_generated(path: Path) -> bool:
-    return GENERATED_MARKER in path.read_text()
+    return path.is_file() and GENERATED_MARKER in path.read_text()
+
+
+def _ownership_file(path: Path, skills_dirs: Sequence[Path]) -> Path:
+    """The file whose marker says whether sync.py owns ``path``: a skill's ``SKILL.md``, else the file itself."""
+    for skills_dir in skills_dirs:
+        if skills_dir in path.parents:
+            return skills_dir / path.relative_to(skills_dir).parts[0] / SKILL_FILE_NAME
+    return path
 
 
 def plan_changes(
-    outputs: Mapping[Path, str], claude_dir: Path, codex_dir: Path, pi_dir: Path
+    outputs: Mapping[Path, str],
+    claude_dir: Path,
+    codex_dir: Path,
+    pi_dir: Path,
+    skills_dirs: Sequence[Path],
 ) -> list[Change]:
     changes: list[Change] = []
     for path, content in sorted(outputs.items()):
         if not path.exists():
             changes.append(Change(path, "write"))
-        elif not _is_generated(path):
+        elif not _is_generated(_ownership_file(path, skills_dirs)):
             raise ConfigError(f"{path} exists and was not generated by sync.py; move it aside first")
         elif path.read_text() != content:
             changes.append(Change(path, "write"))
@@ -289,13 +360,35 @@ def plan_changes(
         for path in sorted(directory.glob(f"*{suffix}")):
             if path not in outputs and _is_generated(path):
                 changes.append(Change(path, "remove"))
+
+    for skills_dir in skills_dirs:
+        if not skills_dir.is_dir():
+            continue
+        for skill_dir in sorted(path for path in skills_dir.iterdir() if path.is_dir()):
+            if not _is_generated(skill_dir / SKILL_FILE_NAME):
+                continue
+            for path in sorted(path for path in skill_dir.rglob("*") if path.is_file()):
+                if path not in outputs:
+                    changes.append(Change(path, "remove"))
     return changes
 
 
-def apply_changes(changes: Sequence[Change], outputs: Mapping[Path, str]) -> None:
+def _remove_empty_skill_directories(path: Path, skills_dirs: Sequence[Path]) -> None:
+    """Removes the now-empty directories above a deleted skill file, stopping at the skills directory."""
+    for parent in path.parents:
+        if parent in skills_dirs or any(parent.iterdir()):
+            return
+        parent.rmdir()
+
+
+def apply_changes(
+    changes: Sequence[Change], outputs: Mapping[Path, str], skills_dirs: Sequence[Path]
+) -> None:
     for change in changes:
         if change.action == "remove":
             change.path.unlink()
+            if any(skills_dir in change.path.parents for skills_dir in skills_dirs):
+                _remove_empty_skill_directories(change.path, skills_dirs)
         else:
             change.path.parent.mkdir(parents=True, exist_ok=True)
             change.path.write_text(outputs[change.path])
@@ -308,11 +401,21 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--claude-dir", type=Path, default=DEFAULT_CLAUDE_DIR)
     parser.add_argument("--codex-dir", type=Path, default=DEFAULT_CODEX_DIR)
     parser.add_argument("--pi-dir", type=Path, default=DEFAULT_PI_DIR)
+    parser.add_argument(
+        "--skills-dir",
+        type=Path,
+        action="append",
+        dest="skills_dirs",
+        help="skills directory to sync into; repeat for several (default: Claude Code, Codex, and pi)",
+    )
     args = parser.parse_args(argv)
+    skills_dirs = args.skills_dirs or list(DEFAULT_SKILLS_DIRS)
 
     try:
-        outputs = desired_outputs(args.source_dir, args.claude_dir, args.codex_dir, args.pi_dir)
-        changes = plan_changes(outputs, args.claude_dir, args.codex_dir, args.pi_dir)
+        outputs = desired_outputs(
+            args.source_dir, args.claude_dir, args.codex_dir, args.pi_dir, skills_dirs
+        )
+        changes = plan_changes(outputs, args.claude_dir, args.codex_dir, args.pi_dir, skills_dirs)
     except (ConfigError, json.JSONDecodeError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 2
@@ -321,7 +424,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"{'would ' if args.check else ''}{change.action}: {change.path}")
     if args.check:
         return 1 if changes else 0
-    apply_changes(changes, outputs)
+    apply_changes(changes, outputs, skills_dirs)
     if not changes:
         print("up to date")
     return 0

@@ -1,6 +1,6 @@
 # Personal agents
 
-One set of agent charters, generated for Claude Code, Codex, and pi.
+One set of agent charters and skills, generated for Claude Code, Codex, and pi.
 
 | Agent | Tier | Role |
 |---|---|---|
@@ -25,12 +25,19 @@ One set of agent charters, generated for Claude Code, Codex, and pi.
 - `memory/<name>.md` (created on first use): what each agent has
   learned. The sync inlines it into the generated prompt, so add lessons
   here (from an agent's `Memory candidate:` line) and re-run the sync.
+- `skills/<name>/SKILL.md`: the skills, the only place to edit one. The
+  folder name must match the `name` frontmatter field, and any other files in
+  the folder (such as `references/`) are copied along. Write them to run in
+  every harness: `$ARGUMENTS` is a Claude Code substitution, so refer to the
+  user's target in words instead.
 - `sync.py`: writes `~/.claude/agents/<name>.md`,
-  `~/.codex/agents/<name>.toml`, and `~/.pi/agent/agents/<name>.md`.
+  `~/.codex/agents/<name>.toml`, and `~/.pi/agent/agents/<name>.md`, and
+  copies each skill to `~/.claude/skills/<name>/`, `~/.codex/skills/<name>/`,
+  and `~/.pi/agent/skills/<name>/`.
 
-## Update the agents
+## Update the agents and skills
 
-1. Edit a charter, `tiers.json`, a preamble, or a memory file.
+1. Edit a charter, a skill, `tiers.json`, a preamble, or a memory file.
 2. Regenerate:
 
    ```bash
@@ -38,7 +45,8 @@ One set of agent charters, generated for Claude Code, Codex, and pi.
    ```
 
    `--check` reports drift without writing. The sync only replaces or removes
-   files carrying its generated marker, and refuses to overwrite anything else.
+   files carrying its generated marker (for a skill, the marker in its
+   `SKILL.md` covers the whole folder), and refuses to overwrite anything else.
 
 3. Start a new Claude Code, Codex, or pi session to load the changes.
 
