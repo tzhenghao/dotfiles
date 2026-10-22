@@ -18,6 +18,7 @@ They are all in their original file formats as I want them to be short, simple a
 7. Alacritty (`~/.config/alacritty/alacritty.toml`)
 8. `.Xmodmap` - swaps Control and Caps Lock keys
 9. Coding agents (`~/.config/agents/AGENTS.md`)
+10. Espanso text expansions (`~/.config/espanso/match/base.yml`)
 
 ## Coding Agents
 
@@ -58,6 +59,15 @@ python3 ~/.config/agents/sync.py
 ```
 
 See `.config/agents/README.md` for how to add or edit an agent or skill.
+
+## Espanso
+
+[Espanso](https://espanso.org) text expansions live in `.config/espanso/match/base.yml`. Symlink the directory into place and restart Espanso:
+
+```bash
+ln -s ~/personal/dotfiles/.config/espanso ~/.config/espanso
+espanso restart
+```
 
 ## OS Specific Settings
 
