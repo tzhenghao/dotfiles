@@ -1,0 +1,8 @@
+matches:
+  - trigger: "ralm"
+    replace: "Rebase against latest main, fix any issues"
+    word: true
+
+  - trigger: "roombah"
+    replace: "Clean up old git branches / worktrees"
+    word: true
